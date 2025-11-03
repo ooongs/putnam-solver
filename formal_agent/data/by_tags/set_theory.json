@@ -1,0 +1,39 @@
+[
+  {
+    "name": "putnam_1980_b4",
+    "problem_id": "putnam_1980_b4",
+    "informal_statement": "Let $X$ be a finite set with at least $10$ elements; for each $i \\in \\{0, 1, ..., 1065\\}$, let $A_i \\subseteq X$ satisfy $|A_i| > \\frac{1}{2}|X|$. Prove that there exist $10$ elements $x_1, x_2, \\dots, x_{10} \\in X$ such that each $A_i$ contains at least one of $x_1, x_2, \\dots, x_{10}$.",
+    "lean4_statement": "theorem putnam_1980_b4\n{T : Type}\n(X : Finset T)\n(A : Fin 1066 → Finset T)\n(hX : X.card ≥ 10)\n(hA : ∀ i : Fin 1066, A i ⊆ X ∧ (A i).card > ((1 : ℚ)/2) * X.card)\n: ∃ Y : Finset T, Y ⊆ X ∧ Y.card = 10 ∧ ∀ i : Fin 1066, ∃ y ∈ Y, y ∈ A i :=\nsorry",
+    "tags": [
+      "set_theory",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_1989_b4",
+    "problem_id": "putnam_1989_b4",
+    "informal_statement": "Can a countably infinite set have an uncountable collection of non-empty subsets such that the intersection of any two of them is finite?",
+    "lean4_statement": "abbrev putnam_1989_b4_solution : Prop := sorry\n-- True\ntheorem putnam_1989_b4\n: ((∃ S : Type, Countable S ∧ Infinite S ∧ ∃ C : Set (Set S), ¬Countable C ∧ (∀ R ∈ C, R ≠ ∅) ∧ (∀ A ∈ C, ∀ B ∈ C, A ≠ B → (A ∩ B).Finite)) ↔ putnam_1989_b4_solution) :=\nsorry",
+    "tags": [
+      "set_theory"
+    ]
+  },
+  {
+    "name": "putnam_2013_b3",
+    "problem_id": "putnam_2013_b3",
+    "informal_statement": "Let $\\mathcal{P}$ be a nonempty collection of subsets of $\\{1,\\dots, n\\}$ such that: \\begin{enumerate} \\item[(i)] if $S, S' \\in \\mathcal{P}$, then $S \\cup S' \\in \\mathcal{P}$ and $S \\cap S' \\in \\mathcal{P}$, and \\item[(ii)] if $S \\in \\mathcal{P}$ and $S \\neq \\emptyset$, then there is a subset $T \\subset S$ such that $T \\in \\mathcal{P}$ and $T$ contains exactly one fewer element than $S$. \\end{enumerate} Suppose that $f: \\mathcal{P} \\to \\mathbb{R}$ is a function such that $f(\\emptyset) = 0$ and \\[f(S \\cup S') = f(S) + f(S') - f(S \\cap S') \\mbox{ for all $S,S' \\in \\mathcal{P}$.} \\] Must there exist real numbers $f_1,\\dots,f_n$ such that\\[f(S) = \\sum_{i \\in S} f_i\\] \\n for every $S \\in \\mathcal{P}$?",
+    "lean4_statement": "abbrev putnam_2013_b3_solution : Prop := sorry\n-- True\ntheorem putnam_2013_b3\n: (∀ (n : ℕ) (P : Finset (Finset (Fin n))) (f : Finset (Fin n) → ℝ),\n      P ≠ ⊥ → (∀ S ∈ P, ∀ S' ∈ P, S ∪ S' ∈ P ∧ S ∩ S' ∈ P) →\n      (∀ S ∈ P, S ≠ ⊥ → ∃ T ∈ P, T ⊂ S ∧ Finset.card T + 1 = Finset.card S) →\n      f ⊥ = 0 → (∀ S ∈ P, ∀ S' ∈ P, f (S ∪ S') = f S + f S' - f (S ∩ S')) →\n      ∃ r : Fin n → ℝ, ∀ S ∈ P, f S = ∑ i in S, r i)\n      ↔ putnam_2013_b3_solution :=\nsorry",
+    "tags": [
+      "set_theory"
+    ]
+  },
+  {
+    "name": "putnam_1974_b6",
+    "problem_id": "putnam_1974_b6",
+    "informal_statement": "For a set with $1000$ elements, how many subsets are there whose candinality is respectively $\\equiv 0 \\bmod 3, \\equiv 1 \\bmod 3, \\equiv 2 \\bmod 3$?",
+    "lean4_statement": "abbrev putnam_1974_b6_solution : (ℕ × ℕ × ℕ) := sorry\n-- ((2^1000 - 1)/3, (2^1000 - 1)/3, 1 + (2^1000 - 1)/3)\ntheorem putnam_1974_b6\n(n : ℤ := 1000)\n(count0 : ℕ := {S | S ⊆ Finset.Icc 1 n ∧ S.card ≡ 0 [MOD 3]}.ncard)\n(count1 : ℕ := {S | S ⊆ Finset.Icc 1 n ∧ S.card ≡ 1 [MOD 3]}.ncard)\n(count2 : ℕ := {S | S ⊆ Finset.Icc 1 n ∧ S.card ≡ 2 [MOD 3]}.ncard)\n: (count0, count1, count2) = putnam_1974_b6_solution :=\nsorry",
+    "tags": [
+      "set_theory"
+    ]
+  }
+]

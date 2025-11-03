@@ -1,0 +1,22 @@
+[
+  {
+    "name": "putnam_1982_b3",
+    "problem_id": "putnam_1982_b3",
+    "informal_statement": "Let $p_n$ denote the probability that $c + d$ will be a perfect square if $c$ and $d$ are selected independently and uniformly at random from $\\{1, 2, 3, \\dots, n\\}$. Express $\\lim_{n \\rightarrow \\infty} p_n \\sqrt{n}$ in the form $r(\\sqrt{s} - t)$ for integers $s$ and $t$ and rational $r$.",
+    "lean4_statement": "abbrev putnam_1982_b3_solution : ℝ := sorry\n-- 4/3 * (Real.sqrt 2 - 1)\ntheorem putnam_1982_b3\n(p : ℕ → ℝ := fun n : ℕ => {(c, d) : Finset.Icc 1 n × Finset.Icc 1 n | ∃ m : ℕ, m^2 = c + d}.ncard / n^2)\n: Tendsto (fun n : ℕ => p n * Real.sqrt n) atTop (𝓝 putnam_1982_b3_solution) :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory",
+      "probability"
+    ]
+  },
+  {
+    "name": "putnam_2004_a1",
+    "problem_id": "putnam_2004_a1",
+    "informal_statement": "Basketball star Shanille O'Keal's team statistician keeps track of the number, $S(N)$, of successful free throws she has made in her first $N$ attempts of the season. Early in the season, $S(N)$ was less than $80\\%$ of $N$, but by the end of the season, $S(N)$ was more than $80\\%$ of $N$. Was there necessarily a moment in between when $S(N)$ was exactly $80\\%$ of $N$?",
+    "lean4_statement": "abbrev putnam_2004_a1_solution : Prop := sorry\n-- True\ntheorem putnam_2004_a1\n(S : (ℕ → Fin 2) → ℕ → ℝ)\n(hS : ∀ attempts : ℕ → Fin 2, ∀ N ≥ 1, S attempts N = (∑ i : Fin N, (attempts i).1) / N)\n: (∀ (attempts : ℕ → Fin 2) (a b : ℕ), (1 ≤ a ∧ a < b ∧ S attempts a < 0.8 ∧ S attempts b > 0.8) → (∃ c : ℕ, a < c ∧ c < b ∧ S attempts c = 0.8)) ↔ putnam_2004_a1_solution :=\nsorry",
+    "tags": [
+      "probability"
+    ]
+  }
+]

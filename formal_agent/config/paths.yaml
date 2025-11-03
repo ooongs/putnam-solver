@@ -1,0 +1,6 @@
+# Path configuration for the formal agent workflow
+
+lean_workspace: 'lean_workspace'
+data_dir: 'data'
+tmp_check_file: 'lean_workspace/TmpCheck.lean'
+lean_toolchain: 'lean_workspace/lean-toolchain'

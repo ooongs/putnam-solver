@@ -1,0 +1,25 @@
+{
+  "total_problems": 522,
+  "tags": {
+    "abstract_algebra": 25,
+    "algebra": 212,
+    "analysis": 171,
+    "combinatorics": 9,
+    "geometry": 20,
+    "linear_algebra": 43,
+    "number_theory": 98,
+    "probability": 2,
+    "set_theory": 4
+  },
+  "tag_files": {
+    "abstract_algebra": "by_tags/abstract_algebra.json",
+    "algebra": "by_tags/algebra.json",
+    "analysis": "by_tags/analysis.json",
+    "combinatorics": "by_tags/combinatorics.json",
+    "geometry": "by_tags/geometry.json",
+    "linear_algebra": "by_tags/linear_algebra.json",
+    "number_theory": "by_tags/number_theory.json",
+    "probability": "by_tags/probability.json",
+    "set_theory": "by_tags/set_theory.json"
+  }
+}

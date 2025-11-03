@@ -1,0 +1,6 @@
+{
+  "problem_id": "putnam_1981_a1",
+  "informal_statement": "Find the minimum value of (u - v)^2 + (√(2 - u^2) - 9/v)^2 for 0 < u < √2 and v > 0.",
+  "lean4_statement": "theorem putnam_1981_a1 : ∃ m : ℝ, m = Inf {((u - v)^2 + (Real.sqrt (2 - u^2) - 9/v)^2) | (u v : ℝ) (_ : 0 < u ∧ u < Real.sqrt 2 ∧ v > 0)} := by sorry"
+}
+

@@ -1,0 +1,930 @@
+[
+  {
+    "name": "putnam_1981_a1",
+    "problem_id": "putnam_1981_a1",
+    "informal_statement": "Let $E(n)$ be the greatest integer $k$ such that $5^k$ divides $1^1 2^2 3^3 \\cdots n^n$. Find $\\lim_{n \\rightarrow \\infty} \\frac{E(n)}{n^2}$.",
+    "lean4_statement": "abbrev putnam_1981_a1_solution : ℝ := sorry\n-- 1/8\ntheorem putnam_1981_a1\n(P : ℕ → ℕ → Prop := fun n k : ℕ => 5^k ∣ ∏ m in Finset.Icc 1 n, (m^m : ℤ))\n(E : ℕ → ℕ)\n(hE : ∀ n ∈ Ici 1, P n (E n) ∧ ∀ k : ℕ, P n k → k ≤ E n)\n: Tendsto (fun n : ℕ => ((E n) : ℝ)/n^2) atTop (𝓝 putnam_1981_a1_solution) :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1981_b3",
+    "problem_id": "putnam_1981_b3",
+    "informal_statement": "Prove that, for infinitely many positive integers $n$, all primes $p$ that divide $n^2 + 3$ also divide $k^2 + 3$ for some integer $k$ such that $k^2 < n$.",
+    "lean4_statement": "theorem putnam_1981_b3\n(P : ℕ → Prop := fun n : ℕ => ∀ p : ℕ, (Nat.Prime p ∧ p ∣ n^2 + 3) → ∃ k : ℕ, (p : ℤ) ∣ (k : ℤ)^2 + 3 ∧ k^2 < n)\n: ∀ n : ℕ, ∃ m : ℕ, (m : ℤ) > n ∧ P m :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2007_a4",
+    "problem_id": "putnam_2007_a4",
+    "informal_statement": "A \\emph{repunit} is a positive integer whose digits in base 10 are all ones. Find all polynomials $f$ with real coefficients such that if $n$ is a repunit, then so is $f(n)$.",
+    "lean4_statement": "abbrev putnam_2007_a4_solution : Set (Polynomial ℝ) := sorry\n-- {f : Polynomial ℝ | ∃ d : ℕ, ∃ c ≥ (1 : ℤ) - d, ∀ n : ℝ, f.eval n = (1 / 9) * ((10 ^ c) * (9 * n + 1) ^ d - 1)}\ntheorem putnam_2007_a4\n(S : Set (Polynomial ℝ))\n(repunit : ℝ → Prop := fun x ↦ x > 0 ∧ x = floor x ∧ ∀ d ∈ (digits 10 (floor x)), d = 1)\n(hS : ∀ f : Polynomial ℝ, f ∈ S ↔ (∀ n : ℝ, repunit n → repunit (f.eval n)))\n: (S = putnam_2007_a4_solution) :=\nsorry",
+    "tags": [
+      "analysis",
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1980_a2",
+    "problem_id": "putnam_1980_a2",
+    "informal_statement": "Let $r$ and $s$ be positive integers. Derive a formula for the number of ordered quadruples $(a,b,c,d)$ of positive integers such that $3^r \\cdot 7^s=\\text{lcm}[a,b,c]=\\text{lcm}[a,b,d]=\\text{lcm}[a,c,d]=\\text{lcm}[b,c,d]$. The answer should be a function of $r$ and $s$. (Note that $\\text{lcm}[x,y,z]$ denotes the least common multiple of $x,y,z$.)",
+    "lean4_statement": "abbrev putnam_1980_a2_solution : ℕ → ℕ → ℕ := sorry\n-- (fun r s : ℕ => (1 + 4 * r + 6 * r ^ 2) * (1 + 4 * s + 6 * s ^ 2))\ntheorem putnam_1980_a2\n(r s : ℕ)\n(abcdlcm : ℕ → ℕ → ℕ → ℕ → Prop)\n(rspos : r > 0 ∧ s > 0)\n(habcdlcm : ∀ a b c d : ℕ, abcdlcm a b c d = (a > 0 ∧ b > 0 ∧ c > 0 ∧ d > 0 ∧ (3 ^ r * 7 ^ s = Nat.lcm (Nat.lcm a b) c) ∧ (3 ^ r * 7 ^ s = Nat.lcm (Nat.lcm a b) d) ∧ (3 ^ r * 7 ^ s = Nat.lcm (Nat.lcm a c) d) ∧ (3 ^ r * 7 ^ s = Nat.lcm (Nat.lcm b c) d)))\n: {(a, b, c, d) : ℕ × ℕ × ℕ × ℕ | abcdlcm a b c d}.encard = putnam_1980_a2_solution r s :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1980_b6",
+    "problem_id": "putnam_1980_b6",
+    "informal_statement": "For integers $d, n$ with $1 \\le d \\le n$, let $G(1, n) = \\frac{1}{n}$ and $G(d, n) = \\frac{d}{n}\\sum_{i=d}^{n}G(d - 1, i - 1)$ for all $d > 1$. If $1 < d \\le p$ for some prime $p$, prove that the reduced denominator of $G(d, p)$ is not divisible by $p$.",
+    "lean4_statement": "theorem putnam_1980_b6\n(G : ℤ × ℤ → ℚ)\n(hG : ∀ d n : ℕ, d ≤ n → (d = 1 → G (d, n) = 1/(n : ℚ)) ∧ (d > 1 → G (d, n) = (d/(n : ℚ))*∑ i in Finset.Icc d n, G ((d : ℤ) - 1, (i : ℤ) - 1)))\n: ∀ d p : ℕ, 1 < d ∧ d ≤ p ∧ Prime p → ¬p ∣ (G (d, p)).den :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1984_a6",
+    "problem_id": "putnam_1984_a6",
+    "informal_statement": "Let $n$ be a positive integer, and let $f(n)$ denote the last nonzero digit in the decimal expansion of $n!$. For instance, $f(5)=2$.\n\\begin{enumerate}\n\\item[(a)] Show that if $a_1,a_2,\\dots,a_k$ are \\emph{distinct} nonnegative integers, then $f(5^{a_1}+5^{a_2}+\\dots+5^{a_k})$ depends only on the sum $a_1+a_2+\\dots+a_k$.\n\\item[(b)] Assuming part (a), we can define $g(s)=f(5^{a_1}+5^{a_2}+\\dots+5^{a_k})$, where $s=a_1+a_2+\\dots+a_k$. Find the least positive integer $p$ for which $g(s)=g(s + p)$, for all $s \\geq 1$, or else show that no such $p$ exists.\n\\end{enumerate}",
+    "lean4_statement": "abbrev putnam_1984_a6_solution : Prop × ℕ := sorry\n-- (True, 4)\ntheorem putnam_1984_a6\n(lastnzdig : List ℕ → ℕ)\n(f : ℕ → ℕ)\n(kadistinct : ℕ → (ℕ → ℕ) → Prop := fun k : ℕ => fun a : ℕ → ℕ => (k ≥ 1 ∧ ∀ i j : Fin k, i ≠ j → a i ≠ a j))\n(gpeq : (ℕ → ℕ) → ℕ → Prop := fun g : ℕ → ℕ => fun p : ℕ => (p > 0 ∧ ∀ s ≥ 1, g s = g (s + p)))\n(hlastnzdig : ∀ digs : List ℕ, (∃ i : Fin digs.length, digs[i] ≠ 0) → lastnzdig digs ≠ 0 ∧ (∃ i : Fin digs.length, digs[i] = lastnzdig digs ∧ ∀ j < i, digs[j] = 0))\n(hf : ∀ n > 0, f n = lastnzdig (Nat.digits 10 (n)!))\n: ∃ g : ℕ → ℕ, (∀ (k : ℕ) (a : ℕ → ℕ), kadistinct k a → g (∑ i : Fin k, a i) = f (∑ i : Fin k, 5 ^ (a i))) ∧\n(if putnam_1984_a6_solution.1 = True then (gpeq g putnam_1984_a6_solution.2 ∧ ∀ p : ℕ, gpeq g p → p ≥ putnam_1984_a6_solution.2) else (¬∃ p : ℕ, gpeq g p)) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2009_a4",
+    "problem_id": "putnam_2009_a4",
+    "informal_statement": "Let $S$ be a set of rational numbers such that\n\\begin{enumerate}\n\\item[(a)] $0 \\in S$;\n\\item[(b)] If $x \\in S$ then $x+1\\in S$ and $x-1\\in S$; and\n\\item[(c)] If $x\\in S$ and $x\\not\\in\\{0,1\\}$, then $\\frac{1}{x(x-1)}\\in S$.\n\\end{enumerate}\nMust $S$ contain all rational numbers?",
+    "lean4_statement": "abbrev putnam_2009_a4_solution : Prop := sorry\n-- False\ntheorem putnam_2009_a4\n: ((∀ S : Set ℚ, 0 ∈ S → (∀ x ∈ S, x + 1 ∈ S ∧ x - 1 ∈ S) → (∀ x ∈ S, x ∉ ({0, 1} : Set ℚ) → 1 / (x * (x - 1)) ∈ S) → ∀ r : ℚ, r ∈ S) ↔ putnam_2009_a4_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2009_b1",
+    "problem_id": "putnam_2009_b1",
+    "informal_statement": "Show that every positive rational number can be written as a quotient of products of factorails of (not necessarily distinct) primes. For example, 10/9 = (2! * 5!)/(3! * 3! * 3!).",
+    "lean4_statement": "theorem putnam_2009_b1\n(isquotprodprimefact : ℚ → Prop :=\nfun q => (∃ (k m : ℕ) (a : Fin k → ℕ) (b : Fin m → ℕ),\n(∀ i : Fin k, Nat.Prime (a i)) ∧ (∀ j : Fin m, Nat.Prime (b j))\n∧ (q = (∏ i : Fin k, Nat.factorial (a i))/(∏ j : Fin m, Nat.factorial (b j)))\n))\n: ∀ q : ℚ, q > 0 → isquotprodprimefact q :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2009_b3",
+    "problem_id": "putnam_2009_b3",
+    "informal_statement": "Call a subset $S$ of $\\{1, 2, \\dots, n\\}$ \\emph{mediocre} if it has the following property: Whenever $a$ and $b$ are elements of $S$ whose average is an integer, that average is also an element of $S$. Let $A(n)$ be the number of mediocre subsets of $\\{1,2,\\dots,n\\}$. [For instance, every subset of $\\{1,2,3\\}$ except $\\{1,3\\}$ is mediocre, so $A(3) = 7$.] Find all positive integers $n$ such that $A(n+2) - 2A(n+1) + A(n) = 1$.",
+    "lean4_statement": "abbrev putnam_2009_b3_solution : Set ℤ := sorry\n-- {n : ℤ | ∃ k ≥ 1, n = 2 ^ k - 1}\ntheorem putnam_2009_b3\n(mediocre : ℤ → Set ℤ → Prop := fun n S ↦ (S ⊆ Icc 1 n) ∧ ∀ a ∈ S, ∀ b ∈ S, 2 ∣ a + b → (a + b) / 2 ∈ S)\n(A : ℤ → ℤ := fun n ↦ {S : Set ℤ | mediocre n S}.ncard)\n: ({n : ℤ | n > 0 ∧ A (n + 2) - 2 * A (n + 1) + A n = 1} = putnam_2009_b3_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2009_b6",
+    "problem_id": "putnam_2009_b6",
+    "informal_statement": "Prove that for every positive integer $n$, there is a sequence of integers $a_0, a_1, \\dots, a_{2009}$ with $a_0 = 0$ and $a_{2009} = n$ such that each term after $a_0$ is either an earlier term plus $2^k$ for some nonnegative integer $k$, or of the form $b\\,\\mathrm{mod}\\,c$ for some earlier positive terms $b$ and $c$. [Here $b\\,\\mathrm{mod}\\,c$ denotes the remainder when $b$ is divided by $c$, so $0 \\leq (b\\,\\mathrm{mod}\\,c) < c$.]",
+    "lean4_statement": "theorem putnam_2009_b6\n(n : ℕ)\n(npos : n > 0)\n: (∃ a : ℕ → ℤ, a 0 = 0 ∧ a 2009 = n ∧ ∀ i : Icc 1 2009, ((∃ j k : ℕ, j < i ∧ a i = a j + 2 ^ k) ∨ ∃ b c : ℕ, b < i ∧ c < i ∧ a b > 0 ∧ a c > 0 ∧ a i = (a b) % (a c))) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2020_a1",
+    "problem_id": "putnam_2020_a1",
+    "informal_statement": "Find the number of positive integers $N$ satisfying: (i) $N$ is divisible by $2020$, (ii) $N$ has at most $2020$ decimal digits, (iii) The decimal digits of $N$ are a string of consecutive ones followed by a string of consecutive zeros.",
+    "lean4_statement": "abbrev putnam_2020_a1_solution : ℕ := sorry\n-- 508536\ntheorem putnam_2020_a1\n: Set.ncard {x : ℕ | (2020 ∣ x) ∧ (Nat.log 10 x) + 1 ≤ 2020 ∧ (∃ k l, k ≥ l ∧ x = ∑ i in Finset.range (k-l+1), 10 ^ (i+l))} = putnam_2020_a1_solution :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2020_a5",
+    "problem_id": "putnam_2020_a5",
+    "informal_statement": "Let $a_n$ be the number of sets $S$ of positive integers for which\n\\[\n\\sum_{k \\in S} F_k = n,\n\\]\nwhere the Fibonacci sequence $(F_k)_{k \\geq 1}$ satisfies $F_{k+2} = F_{k+1} + F_k$ and begins $F_1 = 1, F_2 = 1, F_3 = 2, F_4 = 3$. Find the largest integer $n$ such that $a_n = 2020$.",
+    "lean4_statement": "abbrev putnam_2020_a5_solution : ℤ := sorry\n-- (Nat.fib 4040) - 1\ntheorem putnam_2020_a5\n(a : ℤ → ℕ := fun n : ℤ => {S : Finset ℕ | (∀ k ∈ S, k > 0) ∧ ∑ k : S, Nat.fib k = n}.ncard)\n: a putnam_2020_a5_solution = 2020 ∧ ∀ n : ℤ, a n = 2020 → n ≤ putnam_2020_a5_solution :=\nsorry",
+    "tags": [
+      "number_theory",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_1970_a3",
+    "problem_id": "putnam_1970_a3",
+    "informal_statement": "Find the length of the longest possible sequence of equal nonzero digits (in base 10) in which a perfect square can terminate. Also, find the smallest square that attains this length.",
+    "lean4_statement": "abbrev putnam_1970_a3_solution : ℕ × ℕ := sorry\n-- (3, 1444)\ntheorem putnam_1970_a3\n(L : ℕ → ℕ)\n(hL : ∀ n : ℕ, L n ≤ (Nat.digits 10 n).length ∧\n(∀ k : ℕ, k < L n → (Nat.digits 10 n)[k]! = (Nat.digits 10 n)[0]!) ∧\n(L n ≠ (Nat.digits 10 n).length → (Nat.digits 10 n)[L n]! ≠ (Nat.digits 10 n)[0]!))\n: (∃ n : ℕ, (Nat.digits 10 (n^2))[0]! ≠ 0 ∧ L (n^2) = putnam_1970_a3_solution.1) ∧\n(∀ n : ℕ, (Nat.digits 10 (n^2))[0]! ≠ 0 → L (n^2) ≤ putnam_1970_a3_solution.1) ∧\n(∃ m : ℕ, m^2 = putnam_1970_a3_solution.2) ∧\nL (putnam_1970_a3_solution.2) = putnam_1970_a3_solution.1 ∧\n(Nat.digits 10 putnam_1970_a3_solution.2)[0]! ≠ 0 ∧\n∀ n : ℕ, (Nat.digits 10 (n^2))[0]! ≠ 0 ∧ L (n^2) = putnam_1970_a3_solution.1 → n^2 ≥ putnam_1970_a3_solution.2 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1986_b3",
+    "problem_id": "putnam_1986_b3",
+    "informal_statement": "Let $\\Gamma$ consist of all polynomials in $x$ with integer coefficients. For $f$ and $g$ in $\\Gamma$ and $m$ a positive integer, let $f \\equiv g \\pmod{m}$ mean that every coefficient of $f-g$ is an integral multiple of $m$. Let $n$ and $p$ be positive integers with $p$ prime. Given that $f,g,h,r$ and $s$ are in $\\Gamma$ with $rf+sg\\equiv 1 \\pmod{p}$ and $fg \\equiv h \\pmod{p}$, prove that there exist $F$ and $G$ in $\\Gamma$ with $F \\equiv f \\pmod{p}$, $G \\equiv g \\pmod{p}$, and $FG \\equiv h \\pmod{p^n}$.",
+    "lean4_statement": "theorem putnam_1986_b3\n(cong : Polynomial ℤ → Polynomial ℤ → ℤ → Prop := fun f g m ↦ ∀ i : ℕ, m ∣ (f - g).coeff i)\n(n p : ℕ)\n(nppos : n > 0 ∧ p > 0)\n(pprime : Nat.Prime p)\n(f g h r s : Polynomial ℤ)\n(hcoprime : cong (r * f + s * g) 1 p)\n(hprod : cong (f * g) h p)\n: (∃ F G : Polynomial ℤ, cong F f p ∧ cong G g p ∧ cong (F * G) h (p ^ n)) :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2000_a2",
+    "problem_id": "putnam_2000_a2",
+    "informal_statement": "Prove that there exist infinitely many integers $n$ such that $n,n+1,n+2$ are each the sum of the squares of two integers.",
+    "lean4_statement": "theorem putnam_2000_a2\n: ∀ n : ℕ, ∃ N : ℤ, ∃ i : Fin 6 → ℕ, N > n ∧ N = (i 0)^2 + (i 1)^2 ∧ N + 1 = (i 2)^2 + (i 3)^2 ∧ N + 2 = (i 4)^2 + (i 5)^2 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2000_b2",
+    "problem_id": "putnam_2000_b2",
+    "informal_statement": "Prove that the expression\n\\[\n\\frac{gcd(m,n)}{n}\\binom{n}{m}\n\\]\nis an integer for all pairs of integers $n\\geq m\\geq 1$.",
+    "lean4_statement": "theorem putnam_2000_b2\n: (∀ m n : ℕ, m ≥ 1 → n ≥ m → n ∣ Nat.gcd m n * Nat.choose n m) :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1995_a3",
+    "problem_id": "putnam_1995_a3",
+    "informal_statement": "The number $d_{1}d_{2}\\dots d_{9}$ has nine (not necessarily distinct) decimal digits. The number $e_{1}e_{2}\\dots e_{9}$ is such that each of the nine 9-digit numbers formed by replacing just one of the digits $d_{i}$ is $d_{1}d_{2}\\dots d_{9}$ by the corresponding digit $e_{i}$ ($1 \\leq i \\leq 9$) is divisible by 7. The number $f_{1}f_{2}\\dots f_{9}$ is related to $e_{1}e_{2}\\dots e_{9}$ is the same way: that is, each of the nine numbers formed by replacing one of the $e_{i}$ by the corresponding $f_{i}$ is divisible by 7. Show that, for each $i$, $d_{i}-f_{i}$ is divisible by 7. [For example, if $d_{1}d_{2}\\dots d_{9} = 199501996$, then $e_{6}$ may be 2 or 9, since $199502996$ and $199509996$ are multiples of 7.]",
+    "lean4_statement": "theorem putnam_1995_a3\n(relation : (Fin 9 → ℤ) → (Fin 9 → ℤ) → Prop)\n(digits_to_num : (Fin 9 → ℤ) → ℤ := fun dig => ∑ i : Fin 9, (dig i) * 10^i.1)\n(hrelation : ∀ d e : (Fin 9 → ℤ), relation d e ↔ (∀ i : Fin 9, d i < 10 ∧ d i ≥ 0 ∧ e i < 10 ∧ e i ≥ 0) ∧ (∀ i : Fin 9, 7 ∣ (digits_to_num (fun j : Fin 9 => if j = i then e j else d j))))\n: ∀ d e f : (Fin 9 → ℤ), ((relation d e) ∧ (relation e f)) → (∀ i : Fin 9, 7 ∣ d i - f i) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1995_b6",
+    "problem_id": "putnam_1995_b6",
+    "informal_statement": "For a positive real number $\\alpha$, define \\[ S(\\alpha) = \\{ \\lfloor n\\alpha \\rfloor : n = 1,2,3,\\dots \\}. \\] Prove that $\\{1,2,3,\\dots\\}$ cannot be expressed as the disjoint union of three sets $S(\\alpha), S(\\beta)$ and $S(\\gamma)$. [As usual, $\\lfloor x \\rfloor$ is the greatest integer $\\leq x$.]",
+    "lean4_statement": "theorem putnam_1995_b6\n(S : ℝ → Set ℕ := fun α => {x : ℕ | ∃ n : ℕ, n ≥ 1 ∧ x = floor (n * α)})\n: ¬ ∃ α β γ : ℝ, α > 0 ∧ β > 0 ∧ γ > 0 ∧ (S α) ∩ (S β) = ∅ ∧ (S β) ∩ (S γ) = ∅ ∧ (S α) ∩ (S γ) = ∅ ∧ ℕ+ = (S α) ∪ (S β) ∪ (S γ) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1989_a1",
+    "problem_id": "putnam_1989_a1",
+    "informal_statement": "How many primes among the positive integers, written as usual in base $10$, are alternating $1$'s and $0$'s, beginning and ending with $1$?",
+    "lean4_statement": "abbrev putnam_1989_a1_solution : ℕ := sorry\n-- 1\ntheorem putnam_1989_a1\n(pdigalt : List ℕ → Prop)\n(hpdigalt : ∀ pdig : List ℕ, pdigalt pdig = Odd pdig.length ∧ (∀ i : Fin pdig.length, pdig.get i = if Even (i : ℕ) then 1 else 0))\n: {p : ℕ | p > 0 ∧ p.Prime ∧ pdigalt (Nat.digits 10 p)}.encard = putnam_1989_a1_solution :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1997_a5",
+    "problem_id": "putnam_1997_a5",
+    "informal_statement": "Let $N_n$ denote the number of ordered $n$-tuples of positive integers $(a_1,a_2,\\ldots,a_n)$ such that $1/a_1 + 1/a_2 +\\ldots + 1/a_n=1$.  Determine whether $N_{10}$ is even or odd.",
+    "lean4_statement": "abbrev putnam_1997_a5_solution : Prop := sorry\n-- True\ntheorem putnam_1997_a5\n(N := fun (n : ℕ+) => {t : Fin n → ℕ+ | (∀ i j : Fin n, i < j → t i <= t j) ∧ (∑ i : Fin n, (1 : ℝ)/(t i) = 1) })\n: Odd (N 10).ncard ↔ putnam_1997_a5_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1997_b3",
+    "problem_id": "putnam_1997_b3",
+    "informal_statement": "For each positive integer $n$, write the sum $\\sum_{m=1}^n 1/m$ in the form $p_n/q_n$, where $p_n$ and $q_n$ are relatively prime positive integers.  Determine all $n$ such that 5 does not divide $q_n$.",
+    "lean4_statement": "abbrev putnam_1997_b3_solution : Set ℕ := sorry\n-- {n | (1 ≤ n ∧ n ≤ 4) ∨ (20 ≤ n ∧ n ≤ 24) ∨ (100 ≤ n ∧ n ≤ 104) ∨ (120 ≤ n ∧ n ≤ 124)}\ntheorem putnam_1997_b3\n(n : ℕ)\n(hn : n > 0)\n: n ∈ putnam_1997_b3_solution ↔ ¬5 ∣ (∑ m in Finset.Icc 1 n, 1/m : ℚ).den :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1997_b5",
+    "problem_id": "putnam_1997_b5",
+    "informal_statement": "Prove that for $n\\geq 2$, \\[\\overbrace{2^{2^{\\cdots^{2}}}}^{\\mbox{$n$ terms}} \\equiv \\overbrace{2^{2^{\\cdots^{2}}}}^{\\mbox{$n-1$ terms}} \\quad \\pmod{n}.\\]",
+    "lean4_statement": "theorem putnam_1997_b5\n(n : ℕ)\n(hn : n ≥ 2)\n: tetration 2 n ≡ tetration 2 (n-1) [MOD n] :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2005_a1",
+    "problem_id": "putnam_2005_a1",
+    "informal_statement": "Show that every positive integer is a sum of one or more numbers of the form $2^r 3^s$, where $r$ and $s$ are nonnegative integers and no summand divides another.",
+    "lean4_statement": "theorem putnam_2005_a1\n: ∀ n : ℤ, n > 0 → (∃ k : ℕ, ∃ a : Fin k → Fin 2 → ℕ, n = ∑ i : Fin k, 2^(a i 0)*3^(a i 1) ∧\n(∀ i j : Fin k, i ≠ j → ¬(2^(a i 0)*3^(a i 0) ∣ 2^(a j 0)*3^(a j 1)))) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2001_a5",
+    "problem_id": "putnam_2001_a5",
+    "informal_statement": "Prove that there are unique positive integers $a$, $n$ such that $a^{n+1}-(a+1)^n=2001$.",
+    "lean4_statement": "theorem putnam_2001_a5\n: ∃! (a : ℤ) (n : ℕ), a > 0 ∧ n > 0 ∧ a^(n+1) - (a+1)^n = 2001 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2011_b2",
+    "problem_id": "putnam_2011_b2",
+    "informal_statement": "Let $S$ be the set of all ordered triples $(p,q,r)$ of prime numbers for which at least one rational number $x$ satisfies $px^2+qx+r=0$. Which primes appear in seven or more elements of $S$?",
+    "lean4_statement": "abbrev putnam_2011_b2_solution : Set ℕ := sorry\n-- {2, 5}\ntheorem putnam_2011_b2\n(S : Set (Fin 3 → ℕ))\n(t : ℕ)\n(t7inS : Prop)\n(hS : S = {s : Fin 3 → ℕ | (s 0).Prime ∧ (s 1).Prime ∧ (s 2).Prime ∧ ∃ x : ℚ, (s 0) * x ^ 2 + (s 1) * x + (s 2) = 0})\n(ht7inS : t7inS = ({s ∈ S | ∃ i : Fin 3, s i = t}.encard ≥ 7))\n: (t.Prime ∧ t7inS) ↔ t ∈ putnam_2011_b2_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2011_b6",
+    "problem_id": "putnam_2011_b6",
+    "informal_statement": "Let $p$ be an odd prime. Show that for at least $(p+1)/2$ values of $n$ in $\\{0,1,2,\\dots,p-1\\}$,\n\\[\n\\sum_{k=0}^{p-1} k! n^k \\qquad \\mbox{is not divisible by $p$.}\n\\]",
+    "lean4_statement": "theorem putnam_2011_b6\n(p : ℕ)\n(hp : Odd p ∧ Nat.Prime p)\n: {n ∈ Finset.range p | ¬ p ∣ ∑ k : Finset.range p, Nat.factorial k * n^(k : ℕ)}.ncard ≥ (p + 1)/2 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2017_a1",
+    "problem_id": "putnam_2017_a1",
+    "informal_statement": "Let $S$ be the smallest set of positive integers such that (a) $2$ is in $S$, (b) $n$ is in $S$ whenever $n^2$ is in $S$, and (c) $(n+5)^2$ is in $S$ whenever $n$ is in $S$. Which positive integers are not in $S$?.",
+    "lean4_statement": "abbrev putnam_2017_a1_solution : Set ℤ := sorry\n-- {x : ℤ | x > 0 ∧ (x = 1 ∨ 5 ∣ x)}\ntheorem putnam_2017_a1\n(Q : Set (Set ℤ))\n(Spos : ∀ S ∈ Q, ∀ x ∈ S, x > 0)\n(S2 : ∀ S ∈ Q, 2 ∈ S)\n(Sn : ∀ S ∈ Q, ∀ n, n ^ 2 ∈ S → n ∈ S)\n(Sn5 : ∀ S ∈ Q, ∀ n, n ∈ S → (n + 5) ^ 2 ∈ S)\n: Set.univ \\ (⋂ T ∈ Q, T) = putnam_2017_a1_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2017_b3",
+    "problem_id": "putnam_2017_b3",
+    "informal_statement": "Suppose that $f(x) = \\sum_{i=0}^\\infty c_i x^i$ is a power series for which each coefficient $c_i$ is $0$ or $1$. Show that if $f(2/3) = 3/2$, then $f(1/2)$ must be irrational.",
+    "lean4_statement": "theorem putnam_2017_b3\n(f : ℝ → ℝ)\n(c : ℕ → ℝ)\n(hc : ∀ n, c n = 0 ∨ c n = 1)\n(hf : ∀ x, f x = ∑' n : ℕ, (c n) * x^n)\n: f (2/3) = 3/2 → Irrational (f 1/2) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2017_b6",
+    "problem_id": "putnam_2017_b6",
+    "informal_statement": "Find the number of ordered $64$-tuples $(x_0,x_1,\\dots,x_{63})$ such that $x_0,x_1,\\dots,x_{63}$ are distinct elements of $\\{1,2,\\dots,2017\\}$ and \n\\[\nx_0 + x_1 + 2x_2 + 3x_3 + \\cdots + 63 x_{63}\n\\]\nis divisible by 2017.",
+    "lean4_statement": "abbrev putnam_2017_b6_solution : ℕ := sorry\n-- 2016! / 1953! - 63! * 2016\ntheorem putnam_2017_b6\n(S : Finset (Finset.range 64 → Finset.Icc 1 2017))\n(hs : ∀ x : (Finset.range 64 → Finset.Icc 1 2017), x ∈ S ↔ (Injective x ∧ (2017 ∣ (∑ i : Finset.range 64, if i ≤ (⟨1, by norm_num⟩ : Finset.range 64) then (x i : ℤ) else i * (x i : ℤ)))))\n: (S.card = putnam_2017_b6_solution) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2014_a1",
+    "problem_id": "putnam_2014_a1",
+    "informal_statement": "Prove that every nonzero coefficient of the Taylor series of \\[(1 - x + x^2)e^x\\] about $x=0$ is a rational number whose numerator (in lowest terms) is either $1$ or a prime number.",
+    "lean4_statement": "theorem putnam_2014_a1\n(f : ℝ → ℝ)\n(hf : ∀ x : ℝ, f x = (1 - x + x ^ 2) * Real.exp x)\n(hfdiff : ContDiff ℝ ⊤ f)\n(c : ℕ → ℝ)\n(hc : ∀ k : ℕ, c k = taylorCoeffWithin f k Set.univ 0)\n: ∀ k : ℕ, c k ≠ 0 → ∃ q : ℚ, c k = q ∧ (q.num = 1 ∨ Prime q.num.natAbs) :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2014_a3",
+    "problem_id": "putnam_2014_a3",
+    "informal_statement": "Let \\( a_0 = \\frac{5}{2} \\) and \\( a_k = a_{k-1}^2 - 2 \\) for \\( k \\geq 1 \\). Compute \\( \\prod_{k=0}^{\\infty} \\left(1 - \frac{1}{a_k}\\right) \\) in closed form.",
+    "lean4_statement": "abbrev putnam_2014_a3_solution : ℝ := sorry\n-- 3 / 7\ntheorem putnam_2014_a3\n(a : ℕ → ℝ)\n(a0 : a 0 = 5 / 2)\n(ak : ∀ k ≥ 1, a k = (a (k - 1)) ^ 2 - 2)\n: Tendsto (fun n : ℕ => ∏ k in Finset.range n, (1 - 1 / a k)) atTop (𝓝 putnam_2014_a3_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2014_b3",
+    "problem_id": "putnam_2014_b3",
+    "informal_statement": "Let $A$ be an $m \\times n$ matrix with rational entries. Suppose that there are at least $m+n$ distinct prime numbers among the absolute values of the entries of $A$. Show that the rank of $A$ is at least 2.",
+    "lean4_statement": "theorem putnam_2014_b3\n(m n : ℕ)\n(A : Matrix (Fin m) (Fin n) ℚ)\n(mnpos : m > 0 ∧ n > 0)\n(Aprime : {p : ℕ | p.Prime ∧ ∃ (i : Fin m) (j : Fin n), |A i j| = p}.encard ≥ m + n)\n: A.rank ≥ 2 :=\nsorry",
+    "tags": [
+      "linear_algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2014_b6",
+    "problem_id": "putnam_2014_b6",
+    "informal_statement": "Let $f: [0,1] \\to \\mathbb{R}$ be a function for which there exists a constant $K>0$ such that $\\left| f(x) - f(y) \\right| \\leq K \\left| x - y \\right|$ for all $x,y \\in [0,1]$. Suppose also that for each rational number $r \\in [0,1]$, there exist integers $a$ and $b$ such that $f(r) = a + br$. Prove that there exist finitely many intervals $I_1, \\dots, I_n$ such that $f$ is a linear function on each $I_i$ and $[0,1] = \\bigcup_{i=1}^n I_i$.",
+    "lean4_statement": "theorem putnam_2014_b6\n(f : ℝ → ℝ)\n(hlip : ∃ K > 0, ∀ x ∈ Icc 0 1, ∀ y ∈ Icc 0 1, |f x - f y| ≤ K * |x - y|)\n(hrat : ∀ r ∈ Icc (0 : ℚ) 1, ∃ a b : ℤ, f r = a + b * r)\n: (∃ I : Finset (Interval ℝ), (∀ Ii ∈ I, ∃ m c : ℝ, ∀ x ∈ coeHom Ii, f x = c + m * x) ∧ Icc 0 1 = ⋃ Ii ∈ I, coeHom Ii) :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1988_b1",
+    "problem_id": "putnam_1988_b1",
+    "informal_statement": "A \\emph{composite} (positive integer) is a product $ab$ with $a$ and $b$ not necessarily distinct integers in $\\{2,3,4,\\dots\\}$. Show that every composite is expressible as $xy+xz+yz+1$, with $x,y,z$ positive integers.",
+    "lean4_statement": "theorem putnam_1988_b1\n: ∀ a ≥ 2, ∀ b ≥ 2, ∃ x y z : ℤ, x > 0 ∧ y > 0 ∧ z > 0 ∧ a * b = x * y + x * z + y * z + 1 :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1988_b6",
+    "problem_id": "putnam_1988_b6",
+    "informal_statement": "Prove that there exist an infinite number of ordered pairs $(a,b)$ of integers such that for every positive integer $t$, the number $at+b$ is a triangular number if and only if $t$ is a triangular number. (The triangular numbers are the $t_n=n(n+1)/2$ with $n$ in $\\{0,1,2,\\dots\\}$.)",
+    "lean4_statement": "theorem putnam_1988_b6\n(trinums : Set ℤ)\n(htrinums : trinums = {t : ℤ | ∃ n : ℤ, t ≥ 0 ∧ t = (n * (n + 1)) / 2})\n: {(a, b) : ℤ × ℤ | ∀ t > 0, (a * t + b) ∈ trinums ↔ t ∈ trinums}.encard = ⊤ :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2022_a3",
+    "problem_id": "putnam_2022_a3",
+    "informal_statement": "Let $p$ be a prime number greater than 5. Let $f(p)$ denote the number of infinite sequences $a_1, a_2, a_3, \\dots$ such that $a_n \\in \\{1, 2, \\dots, p-1\\}$ and $a_n a_{n+2} \\equiv 1 + a_{n+1} \\pmod{p}$ for all $n \\geq 1$. Prove that $f(p)$ is congruent to 0 or 2 $\\pmod{5}$.",
+    "lean4_statement": "theorem putnam_2022_a3\n(p : ℕ)\n(hp : Nat.Prime p ∧ p > 5)\n(f : ℕ := {a : ℕ → (ZMod p) | ∀ n : ℕ, a n ≠ 0 ∧ a n * a (n + 2) = 1 + a (n + 1)}.ncard)\n: f ≡ 0 [MOD 5] ∨ f ≡ 2 [MOD 5] :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1973_a3",
+    "problem_id": "putnam_1973_a3",
+    "informal_statement": "Let $n$ be a fixed positive integer and let $b(n)$ be the minimum value of $k + \\frac{n}{k}$ as $k$ is allowed to range through all positive integers. Prove that $b(n)$ and $\\sqrt{4n + 1}$ have the same integer part.",
+    "lean4_statement": "theorem putnam_1973_a3\n(b : ℤ → ℝ := fun n => sInf {k + n/k | k > 0})\n: ∀ n : ℤ, n > 0 → floor (b n) = floor (Real.sqrt (4 * n + 1)) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1973_b2",
+    "problem_id": "putnam_1973_b2",
+    "informal_statement": "Let $z = x+iy$ be a complex number with $x$ and $y$ rational and with $\\| z \\| = 1$. Show thaat the number $\\| z^{2n} - 1 \\|$ is rational for every integer $n$.",
+    "lean4_statement": "theorem putnam_1973_b2\n(z : ℂ)\n(hzrat : ∃ q1 q2 : ℚ, z.re = q1 ∧ z.im = q2)\n(hznorm : ‖z‖ = 1)\n: ∀ n : ℤ, ∃ q : ℚ, ‖z^(2*n) - 1‖ = q :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1973_b3",
+    "problem_id": "putnam_1973_b3",
+    "informal_statement": "Let $p > 1$ be an integer with the property that $x^2 - x + p$ is prime for all $x$ in the range $0 < x < p$. Show there exists exactly one triple of integers $a,b,c$ satisfying $b^2 - 4ac = 1 - 4p$, $0 < a \\leq c$, and $-a \\leq b < a$.",
+    "lean4_statement": "theorem putnam_1973_b3\n(p : ℕ)\n(pgt1 : p > 1)\n(hprime : ∀ x ∈ Set.Ico 0 p, Nat.Prime (x^2 - x + p))\n: ∃! triple : ℤ × ℤ × ℤ, let (a,b,c) := triple; b^2 - 4*a*c = 1 - 4*p ∧ 0 < a ∧ a ≤ c ∧ -a ≤ b ∧ b < a :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1975_a1",
+    "problem_id": "putnam_1975_a1",
+    "informal_statement": "If an integer $n$ can be written as the sum of two triangular numbers (that is, $n = \\frac{a^2 + a}{2} + \\frac{b^2 + b}{2}$ for some integers $a$ and $b$), express $4n + 1$ as the sum of the squares of two integers $x$ and $y$, giving $x$ and $y$ in terms of $a$ and $b$. Also, show that if $4n + 1 = x^2 + y^2$ for some integers $x$ and $y$, then $n$ can be written as the sum of two triangular numbers.",
+    "lean4_statement": "abbrev putnam_1975_a1_solution : ((ℤ × ℤ) → ℤ) × ((ℤ × ℤ) → ℤ) := sorry\n-- (fun (a, b) => a + b + 1, fun (a, b) => a - b)\ntheorem putnam_1975_a1\n(nab : (ℤ × ℤ × ℤ) → Prop := fun (n, a, b) => n = (a^2 + (a : ℚ))/2 + (b^2 + (b : ℚ))/2)\n(nxy : (ℤ × ℤ × ℤ) → Prop := fun (n, x, y) => 4*n + 1 = x^2 + y^2)\n: (∀ n a b : ℤ, nab (n, a, b) → nxy (n, putnam_1975_a1_solution.1 (a, b), putnam_1975_a1_solution.2 (a, b))) ∧\n∀ n : ℤ, (∃ x y : ℤ, nxy (n, x, y)) → ∃ a b : ℤ, nab (n, a, b) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1975_b1",
+    "problem_id": "putnam_1975_b1",
+    "informal_statement": "Let $H$ be a subgroup of the additive group of ordered pairs of integers under componentwise addition. If $H$ is generated by the elements $(3, 8)$, $(4, -1)$, and $(5, 4)$, then $H$ is also generated by two elements $(1, b)$ and $(0, a)$ for some integer $b$ and positive integer $a$. Find $a$.",
+    "lean4_statement": "abbrev putnam_1975_b1_solution : ℤ := sorry\n-- 7\ntheorem putnam_1975_b1\n(H : Set (ℤ × ℤ) := {(x, y) : (ℤ × ℤ) | ∃ u v w : ℤ, (x, y) = (u*3 + v*4 + w*5, u*8 + v*(-1) + w*4)})\n: (∃ b : ℤ, H = {(x, y) : (ℤ × ℤ) | ∃ u v : ℤ, (x, y) = (u, u*b + v*putnam_1975_b1_solution)}) ∧ putnam_1975_b1_solution > 0 :=\nsorry",
+    "tags": [
+      "abstract_algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1992_a3",
+    "problem_id": "putnam_1992_a3",
+    "informal_statement": "For a given positive integer $m$, find all triples $(n, x, y)$ of positive integers, with $n$ relatively prime to $m$, which satisfy\n\\[\n(x^2 + y^2)^m = (xy)^n.\n\\]",
+    "lean4_statement": "abbrev putnam_1992_a3_solution : ℕ → Set (ℕ × ℕ × ℕ) := sorry\n-- fun m ↦ ite (Odd m) ∅ {(m + 1, 2 ^ (m / 2), 2 ^ (m / 2))}\ntheorem putnam_1992_a3\n(m : ℕ)\n(mpos : m > 0)\n(S : Set (ℕ × ℕ × ℕ))\n(hS : ∀ n x y : ℕ, (n, x, y) ∈ S ↔ n > 0 ∧ x > 0 ∧ y > 0 ∧ Coprime n m ∧ (x ^ 2 + y ^ 2) ^ m = (x * y) ^ n)\n: (S = putnam_1992_a3_solution m) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2002_a5",
+    "problem_id": "putnam_2002_a5",
+    "informal_statement": "Define a sequence by $a_0=1$, together with the rules\n$a_{2n+1} = a_n$ and $a_{2n+2} = a_n + a_{n+1}$ for each\ninteger $n \\geq 0$. Prove that every positive rational number\nappears in the set\n\\[\n\\left\\{ \\frac{a_{n-1}}{a_n}: n \\geq 1 \\right\\} =\n\\left\\{ \\frac{1}{1}, \\frac{1}{2}, \\frac{2}{1}, \\frac{1}{3},\n\\frac{3}{2}, \\dots \\right\\}.\n\\]",
+    "lean4_statement": "theorem putnam_2002_a5\n(a : ℕ → ℚ)\n(ha : a 0 = 1 ∧ ∀ n : ℕ, a (2*n + 1) = a n ∧ a (2*n + 2) = a n + a (n + 1))\n: ∀ q : ℚ, q > 0 → q ∈ {a (n - 1) / a n | n ∈ Ici 1} :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2002_a6",
+    "problem_id": "putnam_2002_a6",
+    "informal_statement": "Fix an integer $b \\geq 2$. Let $f(1) = 1$, $f(2) = 2$, and for each\n$n \\geq 3$, define $f(n) = n f(d)$, where $d$ is the number of\nbase-$b$ digits of $n$. For which values of $b$ does\n\\[\n\\sum_{n=1}^\\infty \\frac{1}{f(n)}\n\\]\nconverge?",
+    "lean4_statement": "abbrev putnam_2002_a6_solution : Set ℕ := sorry\n-- {2}\ntheorem putnam_2002_a6\n(f : ℕ → ℕ → ℝ)\n(hf : ∀ b : ℕ, f b 1 = 1 ∧ f b 2 = 2 ∧ ∀ n ∈ Ici 3, f b n = n * f b (Nat.digits b n).length)\n: {b ∈ Ici 2 | ∃ L : ℝ, Tendsto (fun m : ℕ => ∑ n in Finset.Icc 1 m, 1/(f b n)) atTop (𝓝 L)} = putnam_2002_a6_solution :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2002_b5",
+    "problem_id": "putnam_2002_b5",
+    "informal_statement": "A palindrome in base $b$ is a positive integer whose base-$b$\ndigits read the same backwards and forwards; for example,\n$2002$ is a 4-digit palindrome in base 10. Note that 200 is not\na palindrome in base 10, but it is the 3-digit palindrome\n242 in base 9, and 404 in base 7. Prove that there is an integer\nwhich is a 3-digit palindrome in base $b$ for at least 2002\ndifferent values of $b$.",
+    "lean4_statement": "theorem putnam_2002_b5\n: ∃ n : ℕ, {b : ℕ | (Nat.digits b n).length = 3 ∧ List.Palindrome (Nat.digits b n)}.ncard ≥ 2002 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2002_b6",
+    "problem_id": "putnam_2002_b6",
+    "informal_statement": "Let $p$ be a prime number. Prove that the determinant of the matrix\n\\[\n\\begin{pmatrix}\nx & y & z \\\\\nx^p & y^p & z^p \\\\\nx^{p^2} & y^{p^2} & z^{p^2}\n\\end{pmatrix}\n\\]\nis congruent modulo $p$ to a product of polynomials of the form\n$ax+by+cz$, where $a,b,c$ are integers. (We say two integer\npolynomials are congruent modulo $p$ if corresponding coefficients\nare congruent modulo $p$.)",
+    "lean4_statement": "theorem putnam_2002_b6\n(p : ℕ)\n(hp : Nat.Prime p)\n(M : Matrix (Fin 3) (Fin 3) (MvPolynomial (Fin 3) ℤ) := fun r : Fin 3 => fun c : Fin 3 => (X c)^(p^(r : ℕ)))\n(cong : ℕ → MvPolynomial (Fin 3) ℤ × MvPolynomial (Fin 3) ℤ → Prop := fun p : ℕ => fun (f, g) => ∀ n : Fin 3 →₀ ℕ, Int.ModEq p (f.coeff n) (g.coeff n))\n: ∃ S : Finset (MvPolynomial (Fin 3) ℤ), cong p ((det M), (∏ s in S, s)) ∧ ∀ s ∈ S, (∃ a b c : ℤ, s = (C a)*(X 0) + (C b)*(X 1) + (C c)*(X 2)) :=\nsorry",
+    "tags": [
+      "linear_algebra",
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1969_b1",
+    "problem_id": "putnam_1969_b1",
+    "informal_statement": "Let $n$ be a positive integer such that $n+1$ is divisible by $24$. Prove that the sum of all the divisors of $n$ is divisible by $24$.",
+    "lean4_statement": "theorem putnam_1969_b1\n(n : ℕ)\n(hnpos : n > 0)\n(hn : 24 ∣ (n + 1 : ℤ))\n: 24 ∣ ∑ d in divisors n, (d : ℤ) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1977_a5",
+    "problem_id": "putnam_1977_a5",
+    "informal_statement": "Let $p$ be a prime and $m \\geq n$ be non-negative integers. Show that $\\binom{pm}{pn} = \\binom{m}{n} \\pmod p$, where $\\binom{m}{n}$ is the binomial coefficient.",
+    "lean4_statement": "theorem putnam_1977_a5\n(p m n : ℕ)\n(hp : Nat.Prime p)\n(hmgen : m ≥ n)\n: (choose (p * m) (p * n) ≡ choose m n [MOD p]) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2012_b6",
+    "problem_id": "putnam_2012_b6",
+    "informal_statement": "Let $p$ be an odd prime number such that $p \\equiv 2 \\pmod{3}$. Define a permutation $\\pi$ of the residue classes modulo $p$ by $\\pi(x) \\equiv x^3 \\pmod{p}$. Show that $\\pi$ is an even permutation if and only if $p \\equiv 3 \\pmod{4}$.",
+    "lean4_statement": "theorem putnam_2012_b6\n(p : ℕ)\n(hpodd : Odd p)\n(hpprime : Nat.Prime p)\n(hpmod3 : p ≡ 2 [MOD 3])\n(P : Equiv.Perm (Fin p))\n(hP : ∀ i : Fin p, P i = (i * i * i))\n: Equiv.Perm.signAux P = 1 ↔ (p ≡ 3 [MOD 4]) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2019_a5",
+    "problem_id": "putnam_2019_a5",
+    "informal_statement": "Let $p$ be an odd prime number, and let $\\mathbb{F}_p$ denote the field of integers modulo $p$. Let $\\mathbb{F}_p[x]$ be the ring of polynomials over $\\mathbb{F}_p$, and let $q(x) \\in \\mathbb{F}_p[x]$ be given by $q(x)=\\sum_{k=1}^{p-1} a_kx^k$, where $a_k=k^{(p-1)/2}\\mod{p}$. Find the greatest nonnegative integer $n$ such that $(x-1)^n$ divides $q(x)$ in $\\mathbb{F}_p[x]$.",
+    "lean4_statement": "abbrev putnam_2019_a5_solution : ℕ → ℕ := sorry\n-- (fun p : ℕ => (p - 1) / 2)\ntheorem putnam_2019_a5\n(p : ℕ)\n(q : Polynomial (ZMod p))\n(a : ℕ → ZMod p)\n(npoly : ℕ → Polynomial (ZMod p))\n(ndiv : ℕ → Prop)\n(podd : Odd p)\n(pprime : p.Prime)\n(hq : ∀ k : ℕ, q.coeff k = a k)\n(ha0 : a 0 = 0 ∧ ∀ k > p - 1, a k = 0)\n(haother : ∀ k : Set.Icc 1 (p - 1), a k = ((k : ℕ) ^ ((p - 1) / 2)) % p)\n(hnpoly : ∀ n : ℕ, ∀ x : ZMod p, (npoly n).eval x = (x - 1) ^ n)\n(hndiv : ∀ n : ℕ, ndiv n = (npoly n ∣ q))\n: ndiv (putnam_2019_a5_solution p) ∧ ∀ n, ndiv n → n ≤ (putnam_2019_a5_solution p) :=\nsorry",
+    "tags": [
+      "abstract_algebra",
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2019_b5",
+    "problem_id": "putnam_2019_b5",
+    "informal_statement": "Let $F_m$ be the $m$th Fibonacci number, defined by $F_1 = F_2 = 1$ and $F_m = F_{m-1} + F_{m-2}$ for all $m \\geq 3$. Let $p(x)$ be the polynomial of degree $1008$ such that $p(2n + 1) = F_{2n+1}$ for $n = 0,1,2,\\ldots,1008$. Find integers $j$ and $k$ such that $p(2019) = F_j - F_k$.",
+    "lean4_statement": "abbrev putnam_2019_b5_solution : ℕ × ℕ := sorry\n-- ⟨2019, 1010⟩\ntheorem putnam_2019_b5\n(F : ℕ → ℤ)\n(P : Polynomial ℝ)\n(hF : ∀ x, x ≥ 3 → F x = F (x - 1) + F (x - 2))\n(F12 : F 1 = 1 ∧ F 2 = 1)\n(Pdeg: Polynomial.degree P = 1008)\n(hp: ∀ n : ℕ, (n ≤ 1008) → P.eval (2 * n + 1 : ℝ) = F (2 * n + 1))\n: ∀ j k : ℕ, (P.eval 2019 = F j - F k) ↔ ⟨j, k⟩ = putnam_2019_b5_solution  :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1976_a3",
+    "problem_id": "putnam_1976_a3",
+    "informal_statement": "Find all integer solutions $(p, r, q, s)$ of the equation $|p^r - q^s| = 1$, where $p$ and $q$ are prime and $r$ and $s$ are greater than $1$.",
+    "lean4_statement": "abbrev putnam_1976_a3_solution : Set (ℕ × ℕ × ℕ × ℕ) := sorry\n-- {(3, 2, 2, 3), (2, 3, 3, 2)}\ntheorem putnam_1976_a3\n: {(p, r, q, s) : ℕ × ℕ × ℕ × ℕ | Nat.Prime p ∧ Nat.Prime q ∧ r > 1 ∧ s > 1 ∧ |(p^r : ℤ) - q^s| = 1} = putnam_1976_a3_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1976_b6",
+    "problem_id": "putnam_1976_b6",
+    "informal_statement": "Let $\\sigma(N)$ denote the sum of all positive integer divisors of $N$, including $1$ and $N$. Call a positive integer $N$ \\textit{quasiperfect} if $\\sigma(N) = 2N + 1$. Prove that every quasiperfect number is the square of an odd integer.",
+    "lean4_statement": "theorem putnam_1976_b6\n(σ : ℕ → ℤ := fun N : ℕ => ∑ d in Nat.divisors N, (d : ℤ))\n(quasiperfect : ℕ → Prop := fun N : ℕ => σ N = 2*N + 1)\n: ∀ N : ℕ, quasiperfect N → ∃ m : ℤ, Odd m ∧ m^2 = N :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2010_a4",
+    "problem_id": "putnam_2010_a4",
+    "informal_statement": "Prove that for each positive integer $n$, the number $10^{10^{10^n}} + 10^{10^n} + 10^n - 1$ is not prime.",
+    "lean4_statement": "theorem putnam_2010_a4\n: ∀ n : ℕ, n > 0 → ¬Nat.Prime (10^10^10^n + 10^10^n + 10^n - 1) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2013_a2",
+    "problem_id": "putnam_2013_a2",
+    "informal_statement": "Let $S$ be the set of all positive integers that are \\emph{not} perfect squares. For $n$ in $S$, consider choices of integers\n$a_1, a_2, \\dots, a_r$ such that $n < a_1<  a_2 < \\cdots < a_r$\nand $n \\cdot a_1 \\cdot a_2 \\cdots a_r$ is a perfect square, and\nlet $f(n)$ be the minumum of $a_r$ over all such choices. For example,\n$2 \\cdot 3 \\cdot 6$ is a perfect square, while $2 \\cdot 3$, $2 \\cdot 4$, \n$2 \\cdot 5$, $2 \\cdot 3 \\cdot 4$, $2 \\cdot 3 \\cdot 5$, $2 \\cdot 4 \\cdot 5$, and $2 \\cdot 3 \\cdot 4 \\cdot 5$ are not, and so $f(2) = 6$.\nShow that the function $f$ from $S$ to the integers is one-to-one.",
+    "lean4_statement": "theorem putnam_2013_a2\n(S : Set ℤ := {n : ℤ | n > 0 ∧ ¬∃ m : ℤ, m ^ 2 = n})\n(P : ℤ → List ℤ → Prop := fun n : ℤ => fun a : List ℤ => a.length > 0 ∧ n < a[0]! ∧\n(∃ m : ℤ, m ^ 2 = n * a.prod) ∧ (∀ i : Fin (a.length - 1), a[i] < a[i+(1:ℕ)]))\n(T : ℤ → Set ℤ := fun n : ℤ => {m : ℤ | ∃ a : List ℤ, P n a ∧ a[a.length - 1]! = m})\n(f : ℤ → ℤ)\n(hf : ∀ n ∈ S, ((∃ r ∈ T n, f n = r) ∧ ∀ r ∈ T n, f n ≤ r))\n: InjOn f S :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2013_a3",
+    "problem_id": "putnam_2013_a3",
+    "informal_statement": "Suppose that the real numbers \\( a_0, a_1, \\ldots, a_n \\) and \\( x \\), with \\( 0 < x < 1 \\), satisfy $ \\frac{a_0}{1-x} + \\frac{a_1}{(1-x)^2} + \\cdots + \\frac{a_n}{(1-x)^{n+1}} = 0. $ Prove that there exists a real number \\( y \\) with \\( 0 < y < 1 \\) such that $ a_0 + a_1y + \\cdots + a_ny^n = 0. $.",
+    "lean4_statement": "theorem putnam_2013_a3\n(n : ℕ)\n(a : Set.Icc 0 n → ℝ)\n(x : ℝ)\n(hx : 0 < x ∧ x < 1)\n(hsum: (∑ i : Set.Icc 0 n, a i / (1 - x ^ (i.1 + 1))) = 0)\n: ∃ y : ℝ, 0 < y ∧ y < 1 ∧ (∑ i : Set.Icc 0 n, a i * y ^ i.1) = 0 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2023_b2",
+    "problem_id": "putnam_2023_b2",
+    "informal_statement": "For each positive integer $n$, let $k(n)$ be the number of ones in the binary representation of $2023 \\cdot n$. What is the minimum value of $k(n)$?",
+    "lean4_statement": "abbrev putnam_2023_b2_solution : ℕ := sorry\n-- 3\ntheorem putnam_2023_b2\n: sInf {(digits 2 (2023*n)).sum | n > 0} = putnam_2023_b2_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2023_b5",
+    "problem_id": "putnam_2023_b5",
+    "informal_statement": "Determine which positive integers $n$ have the following property: For all integers $m$ that are relatively prime to $n$, there exists a permutation $\\pi:\\{1,2,\\dots,n\\} \\to \\{1,2,\\dots,n\\}$ such that $\\pi(\\pi(k)) \\equiv mk \\pmod{n}$ for all $k \\in \\{1,2,\\dots,n\\}$.",
+    "lean4_statement": "abbrev putnam_2023_b5_solution : Set ℕ := sorry\n-- {n : ℕ | n = 1 ∨ n ≡ 2 [MOD 4]}\ntheorem putnam_2023_b5\n(n : ℕ)\n(perm : Prop)\n(hperm : perm = ∀ m : ℤ, IsRelPrime m n → ∃ p : Equiv.Perm (Fin n), ∀ k : Fin n, (p (p k)).1 + 1 ≡ m * (k.1 + 1) [ZMOD n])\n: (n > 0 ∧ perm) ↔ n ∈ putnam_2023_b5_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1996_a5",
+    "problem_id": "putnam_1996_a5",
+    "informal_statement": "If $p$ is a prime number greater than 3 and $k = \\lfloor 2p/3 \\rfloor$, prove that the sum \\[\\binom p1 + \\binom p2 + \\cdots + \\binom pk \\] of binomial coefficients is divisible by $p^2$.",
+    "lean4_statement": "theorem putnam_1996_a5\n(p : ℕ)\n(hpprime : Prime p)\n(hpge3 : p > 3)\n(k : ℕ := Nat.floor (2*p/(3 : ℚ)))\n: p^2 ∣ ∑ i in Finset.Icc 1 k, Nat.choose p i :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2016_a1",
+    "problem_id": "putnam_2016_a1",
+    "informal_statement": "Find the smallest positive integer $j$ such that for every polynomial $p(x)$ with integer coefficients and for every integer $k$, the integer \\[ p^{(j)}(k) = \\left. \\frac{d^j}{dx^j} p(x) \\right|_{x=k} \\] (the $j$-th derivative of $p(x)$ at $k$) is divisible by 2016.",
+    "lean4_statement": "abbrev putnam_2016_a1_solution : ℕ := sorry\n-- 8\ntheorem putnam_2016_a1\n: (∀ j : ℕ+, (∀ P : ℤ[X], ∀ k : ℤ, 2016 ∣ (derivative^[j] P).eval k) → j ≥ putnam_2016_a1_solution) ∧ (∀ P : ℤ[X], ∀ k : ℤ, 2016 ∣ (derivative^[putnam_2016_a1_solution] P).eval k) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1982_b3",
+    "problem_id": "putnam_1982_b3",
+    "informal_statement": "Let $p_n$ denote the probability that $c + d$ will be a perfect square if $c$ and $d$ are selected independently and uniformly at random from $\\{1, 2, 3, \\dots, n\\}$. Express $\\lim_{n \\rightarrow \\infty} p_n \\sqrt{n}$ in the form $r(\\sqrt{s} - t)$ for integers $s$ and $t$ and rational $r$.",
+    "lean4_statement": "abbrev putnam_1982_b3_solution : ℝ := sorry\n-- 4/3 * (Real.sqrt 2 - 1)\ntheorem putnam_1982_b3\n(p : ℕ → ℝ := fun n : ℕ => {(c, d) : Finset.Icc 1 n × Finset.Icc 1 n | ∃ m : ℕ, m^2 = c + d}.ncard / n^2)\n: Tendsto (fun n : ℕ => p n * Real.sqrt n) atTop (𝓝 putnam_1982_b3_solution) :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory",
+      "probability"
+    ]
+  },
+  {
+    "name": "putnam_1982_b4",
+    "problem_id": "putnam_1982_b4",
+    "informal_statement": "Let $n_1, n_2, \\dots, n_s$ be distinct integers such that, for every integer $k$, $n_1n_2\\cdots n_s$ divides $(n_1 + k)(n_2 + k) \\cdots (n_s + k)$. Prove or provide a counterexample to the following claims:\n\\begin{enumerate}\n\\item\nFor some $i$, $|n_i| = 1$.\n\\item\nIf all $n_i$ are positive, then $\\{n_1, n_2, \\dots, n_s\\} = \\{1, 2, \\dots, s\\}$.\n\\end{enumerate}",
+    "lean4_statement": "abbrev putnam_1982_b4_solution : Prop × Prop := sorry\n-- (True, True)\ntheorem putnam_1982_b4\n(hn : Finset ℤ → Prop := fun n : Finset ℤ => ∀ k : ℤ, ∏ i in n, i ∣ ∏ i in n, (i + k))\n: ((∀ n : Finset ℤ, hn n → (∃ i ∈ n, |i| = 1)) ↔ putnam_1982_b4_solution.1) ∧\n((∀ n : Finset ℤ, (hn n ∧ ∀ i ∈ n, i > 0) → n = Finset.Icc (1 : ℤ) (n.card)) ↔ putnam_1982_b4_solution.2) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1983_a1",
+    "problem_id": "putnam_1983_a1",
+    "informal_statement": "How many positive integers $n$ are there such that $n$ is an exact divisor of at least one of the numbers $10^{40},20^{30}$?",
+    "lean4_statement": "abbrev putnam_1983_a1_solution : ℕ := sorry\n-- 2301\ntheorem putnam_1983_a1\n: {n : ℤ | n > 0 ∧ (n ∣ 10 ^ 40 ∨ n ∣ 20 ^ 30)}.encard = putnam_1983_a1_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1983_a3",
+    "problem_id": "putnam_1983_a3",
+    "informal_statement": "Let $p$ be in the set $\\{3,5,7,11,\\dots\\}$ of odd primes and let $F(n)=1+2n+3n^2+\\dots+(p-1)n^{p-2}$. Prove that if $a$ and $b$ are distinct integers in $\\{0,1,2,\\dots,p-1\\}$ then $F(a)$ and $F(b)$ are not congruent modulo $p$, that is, $F(a)-F(b)$ is not exactly divisible by $p$.",
+    "lean4_statement": "theorem putnam_1983_a3\n(p : ℕ)\n(F : ℕ → ℕ)\n(poddprime : Odd p ∧ p.Prime)\n(hF : ∀ n : ℕ, F n = ∑ i in Finset.range (p - 1), (i + 1) * n ^ i)\n: ∀ a ∈ Finset.Icc 1 p, ∀ b ∈ Finset.Icc 1 p, a ≠ b → ¬(F a ≡ F b [MOD p]) :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2003_b3",
+    "problem_id": "putnam_2003_b3",
+    "informal_statement": "Show that for each positive integer $n$, $n!=\\prod_{i=1}^n \\text{lcm}\\{1,2,\\dots,\\lfloor n/i \\rfloor\\}$. (Here lcm denotes the least common multiple, and $\\lfloor x \\rfloor$ denotes the greatest integer $\\leq x$.)",
+    "lean4_statement": "theorem putnam_2003_b3\n(multicc : ℕ → ℕ → Prop)\n(lcmicc : ℕ → ℕ)\n(hmulticc : ∀ n mult : ℕ, multicc n mult = ∀ i : Set.Icc 1 n, i.1 ∣ mult)\n(hlcmicc : ∀ n : ℕ, multicc n (lcmicc n) ∧ (∀ n' : ℕ, multicc n n' → n' ≥ (lcmicc n)))\n: ∀ n > 0, (n)! = ∏ i : Set.Icc 1 n, lcmicc (n / i.1) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2003_b4",
+    "problem_id": "putnam_2003_b4",
+    "informal_statement": "Let $f(z)=az^4+bz^3+cz^2+dz+e=a(z-r_1)(z-r_2)(z-r_3)(z-r_4)$ where $a,b,c,d,e$ are integers, $a \\neq 0$. Show that if $r_1+r_2$ is a rational number and $r_1+r_2 \\neq r_3+r_4$, then $r_1r_2$ is a rational number.",
+    "lean4_statement": "theorem putnam_2003_b4\n(f : ℝ → ℝ)\n(a b c d e : ℤ)\n(r1 r2 r3 r4 : ℝ)\n(ane0 : a ≠ 0)\n(hf1 : ∀ z : ℝ, f z = a * z ^ 4 + b * z ^ 3 + c * z ^ 2 + d * z + e)\n(hf2 : ∀ z : ℝ, f z = a * (z - r1) * (z - r2) * (z - r3) * (z - r4))\n: (¬Irrational (r1 + r2) ∧ r1 + r2 ≠ r3 + r4) → ¬Irrational (r1 * r2) :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2008_b1",
+    "problem_id": "putnam_2008_b1",
+    "informal_statement": "What is the maximum number of rational points that can lie on a circle in $\\mathbb{R}^2$ whose center is not a rational point? (A \\emph{rational point} is a point both of whose coordinates are rational numbers.)",
+    "lean4_statement": "abbrev putnam_2008_b1_solution : ℕ := sorry\n-- 2\ndef is_rational_point (p : Fin 2 → ℝ) : Prop := ∃ (a b : ℚ), a = p 0 ∧ b = p 1\ndef real_circle (c : Fin 2 → ℝ) (r : ℝ) : Set (Fin 2 → ℝ) := {p : Fin 2 → ℝ | Euclidean.dist p c = r}\ntheorem putnam_2008_b1 :\n∀ (c : Fin 2 → ℝ) (r : ℝ), ¬ is_rational_point c → (Set.ncard {p : Fin 2 → ℝ | p ∈ real_circle c r ∧ is_rational_point p} ≤ putnam_2008_b1_solution)\n∧ ∃ (c : Fin 2 → ℝ) (r : ℝ), ¬ is_rational_point c ∧ (Set.ncard {p : Fin 2 → ℝ | p ∈ real_circle c r ∧ is_rational_point p} = putnam_2008_b1_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2008_b4",
+    "problem_id": "putnam_2008_b4",
+    "informal_statement": "Let $p$ be a prime number. Let $h(x)$ be a polynomial with integer coefficients such that $h(0), h(1), \\dots, h(p^2-1)$ are distinct modulo $p^2$. Show that $h(0), h(1), \\dots, h(p^3-1)$ are distinct modulo $p^3$.",
+    "lean4_statement": "theorem putnam_2008_b4\n(p : ℕ)\n(hp : Nat.Prime p)\n(h : Polynomial ℤ)\n(hh : ∀ i j : Finset.range (p ^ 2), h.eval i ≡ h.eval j [ZMOD p ^ 2] → i = j)\n: (∀ i j : Finset.range (p ^ 3), h.eval i ≡ h.eval j [ZMOD p ^ 3] → i = j) :=\nsorry",
+    "tags": [
+      "algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2008_b6",
+    "problem_id": "putnam_2008_b6",
+    "informal_statement": "Let $n$ and $k$ be positive integers. Say that a permutation $\\sigma$ of $\\{1,2,\\dots,n\\} is $k-limited$ if \\|\\sigma(i) - i\\| \\leq k$ for all $i$. Prove that the number of $k-limited$ permutations $\\{1,2,\\dots,n\\}$ is odd if and only if $n \\equiv 0$ or $1 (mod 2k+1)$.",
+    "lean4_statement": "theorem putnam_2008_b6\n(n k : ℕ)\n(hnk : n > 0 ∧ k > 0)\n: Odd (Set.ncard {s : Equiv.Perm (Fin n) | klimited k n s}) ↔ (n ≡ 0 [MOD 2*k+1] ∨ n ≡ 1 [MOD 2*k+1]) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2021_a5",
+    "problem_id": "putnam_2021_a5",
+    "informal_statement": "Let $A$ be the set of all integers $n$ such that $1 \\leq n \\leq 2021$ and $\\gcd(n,2021)=1$. For every nonnegative integer $j$, let $S(j)=\\sum_{n \\in A}n^j$. Determine all values of $j$ such that $S(j)$ is a multiple of $2021$.",
+    "lean4_statement": "abbrev putnam_2021_a5_solution : Set ℕ := sorry\n-- {j : ℕ | ¬(42 ∣ j) ∧ ¬(46 ∣ j)}\ntheorem putnam_2021_a5\n(j : ℕ)\n(A : Finset ℕ)\n(S : ℕ → ℕ)\n(hA : A = {n : ℕ | 1 ≤ n ∧ n ≤ 2021 ∧ Nat.gcd n 2021 = 1})\n(hS : ∀ j' : ℕ, S j' = ∑ n in A, n ^ j')\n: (2021 ∣ S j) ↔ j ∈ putnam_2021_a5_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2021_a6",
+    "problem_id": "putnam_2021_a6",
+    "informal_statement": "Let $P(x)$ be a polynomial whose coefficients are all either $0$ or $1$. Suppose that $P(x)$ can be written as a product of two nonconstant polynomials with integer coefficients. Does it follow that $P(2)$ is a composite integer?",
+    "lean4_statement": "abbrev putnam_2021_a6_solution : Prop := sorry\n-- True\ntheorem putnam_2021_a6\n(Pcoeff : Polynomial ℤ → Prop)\n(Pprod : Polynomial ℤ → Prop)\n(hPcoeff : ∀ P : Polynomial ℤ, Pcoeff P = (∀ n : ℕ, P.coeff n = 0 ∨ P.coeff n = 1))\n(hPprod : ∀ P : Polynomial ℤ, Pprod P = (∃ Q R : Polynomial ℤ, Q.degree > 0 ∧ R.degree > 0 ∧ P = Q * R))\n: (∀ P : Polynomial ℤ, (Pcoeff P ∧ Pprod P) → (P.eval 2 ≠ 0 ∧ P.eval 2 ≠ 1 ∧ ¬Prime (P.eval 2))) ↔ putnam_2021_a6_solution :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2021_b4",
+    "problem_id": "putnam_2021_b4",
+    "informal_statement": "Let $F_0, F_1, \\ldots$ be the sequence of Fibonacci numbers, with $F_0 = 0$, $F_1 = 1$, and $F_n = F_{n-1} + F_{n-2}$ for $n \\geq 2$. For $m > 2$, let $R_m$ be the remainder when the product $\\prod_{k=1}^{F_{m-1}} k^k$ is divided by $F_m$. Prove that $R_m$ is also a Fibonacci number.",
+    "lean4_statement": "theorem putnam_2021_b4\n(F : ℕ → ℕ)\n(hF : ∀ x, x ≥ 2 → F x = F (x - 1) + F (x - 2))\n(F01 : F 0 = 0 ∧ F 1 = 1)\n: ∀ m, m > 2 → (∃ p,  (∏ k : Set.Icc 1 (F m - 1),  (k.1 ^ k.1))  % F m = F p) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1972_a5",
+    "problem_id": "putnam_1972_a5",
+    "informal_statement": "Show that if $n$ is an integer greater than $1$, then $n$ does not divide $2^n - 1$.",
+    "lean4_statement": "theorem putnam_1972_a5\n(n : ℕ)\n(hn : n > 1)\n: ¬((n : ℤ) ∣ 2^n - 1) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1971_a6",
+    "problem_id": "putnam_1971_a6",
+    "informal_statement": "Let $c$ be a real number such that $n^c$ is an integer for every positive integer $n$. Show that $c$ is a non-negative integer.",
+    "lean4_statement": "theorem putnam_1971_a6\n(c : ℝ)\n(hc : ∀ n : ℤ, n > 0 → ∃ m : ℤ, (n : ℝ)^c = m)\n: ∃ m : ℕ, c = m :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1971_b6",
+    "problem_id": "putnam_1971_b6",
+    "informal_statement": "Let $\\delta(x) be the greatest odd divisor of the positive integer $x$. Show that $|\\sum_{n = 1}^x \\delta(n)/n - 2x/3| < 1$ for all positive integers $x$.",
+    "lean4_statement": "theorem putnam_1971_b6\n(δ : ℤ → ℤ := fun n => sSup {t | Odd t ∧ t ∣ n})\n: ∀ x : ℤ, x > 0 → |∑ i in Finset.Icc 1 x, (δ i)/(i : ℚ) - 2*x/3| < 1 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1999_a4",
+    "problem_id": "putnam_1999_a4",
+    "informal_statement": "Sum the series \\[\\sum_{m=1}^\\infty \\sum_{n=1}^\\infty \\frac{m^2 n}{3^m(n3^m+m3^n)}.\\]",
+    "lean4_statement": "abbrev putnam_1999_a4_solution : ℝ := sorry\n-- 9/32\ntheorem putnam_1999_a4\n: Tendsto (fun i => ∑ m in Finset.range i, ∑' n : ℕ, (((m + 1)^2*(n+1))/(3^(m + 1) * ((n+1)*3^(m + 1) + (m + 1)*3^(n+1))) : ℝ)) atTop (𝓝 putnam_1999_a4_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1999_b6",
+    "problem_id": "putnam_1999_b6",
+    "informal_statement": "Let $S$ be a finite set of integers, each greater than 1.  Suppose that for each integer $n$ there is some $s\\in S$ such that $\\gcd(s,n)=1$ or $\\gcd(s,n)=s$.  Show that there exist $s,t\\in S$ such that $\\gcd(s,t)$ is prime.",
+    "lean4_statement": "theorem putnam_1999_b6\n(S : Finset ℤ)\n(hSgt : ∀ s : ℤ, s ∈ S → s > 1)\n(hSgcd : ∀ n : ℤ, ∃ s : S, Int.gcd s n = 1 ∨ Int.gcd s n = (s : ℤ))\n: ∃ s t : S, Prime (Int.gcd s t) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1974_a1",
+    "problem_id": "putnam_1974_a1",
+    "informal_statement": "Call a set of positive integers 'conspiratorial' if no three of them are pairwise relatively prime. What is the largest number of elements in any conspiratorial subset of the integers 1 through 16?",
+    "lean4_statement": "abbrev putnam_1974_a1_solution : ℕ := sorry\n-- 11\ntheorem putnam_1974_a1\n(conspiratorial : Set ℤ → Prop := fun S => ∀ a ∈ S, ∀ b ∈ S, ∀ c ∈ S, (a > 0 ∧ b > 0 ∧ c > 0) ∧ ((a ≠ b ∧ b ≠ c ∧ a ≠ c) → (Int.gcd a b > 1 ∨ Int.gcd b c > 1 ∨ Int.gcd a c > 1)))\n: (∀ S : Set ℤ, S ⊆ Icc 1 16 → conspiratorial S → S.encard ≤ putnam_1974_a1_solution) ∧ (∃ S : Set ℤ, S ⊆ Icc 1 16 ∧ conspiratorial S ∧ S.encard = putnam_1974_a1_solution) := sorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1974_a3",
+    "problem_id": "putnam_1974_a3",
+    "informal_statement": "A well-known theorem asserts that a prime $p > 2$ can be written as the sum of two perfect squres if and only if $p \\equiv 1 \\bmod 4$. Find which primes $p > 2$ can be written in each of the following forms, using (not necessarily positive) integers $x$ and $y$: (a) $x^2 + 16y^2$, (b) $4x^2 + 4xy + 5y^2$.",
+    "lean4_statement": "abbrev putnam_1974_a3_solution : (Set ℕ) × (Set ℕ) := sorry\n-- ({p : ℕ | p.Prime ∧ p ≡ 1 [MOD 8]}, {p : ℕ | p.Prime ∧ p ≡ 5 [MOD 8]})\ntheorem putnam_1974_a3\n(assmption : ∀ p : ℕ, p.Prime ∧ p > 2 → ((∃ m n : ℤ, p = m^2 + n^2) ↔ p ≡ 1 [MOD 4]))\n: ∀ p : ℕ, ((p.Prime ∧ p > 2 ∧ (∃ x y : ℤ, p = x^2 + 16*y^2)) ↔ p ∈ putnam_1974_a3_solution.1) ∧ ((p.Prime ∧ p > 2 ∧ (∃ x y : ℤ, p = 4*x^2 + 4*x*y + 5*y^2)) ↔ p ∈ putnam_1974_a3_solution.2) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1974_b3",
+    "problem_id": "putnam_1974_b3",
+    "informal_statement": "Prove that if $\\alpha$ is a real number such that $\\cos (\\pi \\alpha) = 1/3$, the $\\alpha$ is irrational.",
+    "lean4_statement": "theorem putnam_1974_b3\n(α : ℝ)\n(ha : Real.cos (Real.pi * α) = (1 : ℝ)/3)\n: Irrational α :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1998_b4",
+    "problem_id": "putnam_1998_b4",
+    "informal_statement": "Find necessary and sufficient conditions on positive integers $m$ and $n$ so that \\[\\sum_{i=0}^{mn-1} (-1)^{\\lfloor i/m \\rfloor +\\lfloor i/n\\rfloor}=0.\\]",
+    "lean4_statement": "abbrev putnam_1998_b4_solution : Set (ℕ × ℕ) := sorry\n-- {nm | let ⟨n,m⟩ := nm; multiplicity 2 n ≠ multiplicity 2 m}\ntheorem putnam_1998_b4\n(hsum : ℕ → ℕ → ℤ := fun n m => ∑ i in Finset.range (m * n), (-1)^(i/m + i/n))\n: ∀ n m : ℕ, n > 0 ∧ m > 0 → ((hsum n m) = 0 ↔ ⟨n, m⟩ ∈ putnam_1998_b4_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1998_b5",
+    "problem_id": "putnam_1998_b5",
+    "informal_statement": "Let $N$ be the positive integer with 1998 decimal digits, all of them 1; that is, \\[N=1111\\cdots 11.\\] Find the thousandth digit after the decimal point of $\\sqrt N$.",
+    "lean4_statement": "abbrev putnam_1998_b5_solution : ℕ := sorry\n-- 1\ntheorem putnam_1998_b5\n(N : ℕ := ∑ i in Finset.range 1998, 10^i)\n: putnam_1998_b5_solution = (Nat.floor (10^1000 * Real.sqrt N)) % 10 :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1998_b6",
+    "problem_id": "putnam_1998_b6",
+    "informal_statement": "Prove that, for any integers $a, b, c$, there exists a positive integer $n$ such that $\\sqrt{n^3+an^2+bn+c}$ is not an integer.",
+    "lean4_statement": "theorem putnam_1998_b6\n: ∀ a b c : ℤ, ∃ n : ℤ, n > 0 ∧ ¬(∃ k : ℤ, k = Real.sqrt (n^3 + a * n^2 + b * n + c)) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1991_b4",
+    "problem_id": "putnam_1991_b4",
+    "informal_statement": "Suppose $p$ is an odd prime. Prove that $\\sum_{j=0}^p \\binom{p}{j}\\binom{p+j}{j} \\equiv 2^p+1 \\pmod{p^2}$.",
+    "lean4_statement": "theorem putnam_1991_b4\n(p : ℕ)\n(podd : Odd p)\n(pprime : Prime p)\n: (∑ j : Fin (p + 1), (p.choose j) * ((p + j).choose j)) ≡ (2 ^ p + 1) [MOD (p ^ 2)] :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1991_b5",
+    "problem_id": "putnam_1991_b5",
+    "informal_statement": "Let $p$ be an odd prime and let $\\mathbb{Z}_p$ denote (the field of) integers modulo $p$. How many elements are in the set $\\{x^2:x \\in \\mathbb{Z}_p\\} \\cap \\{y^2+1:y \\in \\mathbb{Z}_p\\}$?",
+    "lean4_statement": "abbrev putnam_1991_b5_solution : ℕ → ℕ := sorry\n-- (fun p : ℕ => Nat.ceil ((p : ℝ) / 4))\ntheorem putnam_1991_b5\n(p : ℕ)\n(podd : Odd p)\n(pprime : Prime p)\n: ({z : ZMod p | ∃ x : ZMod p, z = x ^ 2} ∩ {z : ZMod p | ∃ y : ZMod p, z = y ^ 2 + 1}).encard = putnam_1991_b5_solution p :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1985_a4",
+    "problem_id": "putnam_1985_a4",
+    "informal_statement": "Define a sequence $\\{a_i\\}$ by $a_1=3$ and $a_{i+1}=3^{a_i}$ for $i \\geq 1$. Which integers between $00$ and $99$ inclusive occur as the last two digits in the decimal expansion of infinitely many $a_i$?",
+    "lean4_statement": "abbrev putnam_1985_a4_solution : Set (Fin 100) := sorry\n-- {87}\ntheorem putnam_1985_a4\n(a : ℕ → ℕ)\n(ha1 : a 1 = 3)\n(ha : ∀ i ≥ 1, a (i + 1) = 3 ^ a i)\n: ({k : Fin 100 | ∀ N : ℕ, ∃ i ≥ N, a i % 100 = k} = putnam_1985_a4_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1994_b4",
+    "problem_id": "putnam_1994_b4",
+    "informal_statement": "For $n \\geq 1$, let $d_n$ be the greatest common divisor of the entries of $A^n-I$, where $A=\\begin{pmatrix} 3 & 2 \\\\ 4 & 3 \\end{pmatrix}$ and $I=\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Show that $\\lim_{n \\to \\infty} d_n=\\infty$.",
+    "lean4_statement": "theorem putnam_1994_b4\n(matgcd : Matrix (Fin 2) (Fin 2) ℤ → ℤ)\n(A : Matrix (Fin 2) (Fin 2) ℤ)\n(d : ℕ → ℤ)\n(hmatgcd : ∀ M : Matrix (Fin 2) (Fin 2) ℤ, matgcd M = Int.gcd (Int.gcd (Int.gcd (M 0 0) (M 0 1)) (M 1 0)) (M 1 1))\n(hA : A 0 0 = 3 ∧ A 0 1 = 2 ∧ A 1 0 = 4 ∧ A 1 1 = 3)\n(hd : ∀ n ≥ 1, d n = matgcd (A ^ n - 1))\n: Tendsto d atTop atTop :=\nsorry",
+    "tags": [
+      "linear_algebra",
+      "number_theory",
+      "analysis"
+    ]
+  },
+  {
+    "name": "putnam_1994_b6",
+    "problem_id": "putnam_1994_b6",
+    "informal_statement": "For any integer $a$, set $n_a=101a-100 \\cdot 2^a$. Show that for $0 \\leq a,b,c,d \\leq 99$, $n_a+n_b \\equiv n_c+n_d \\pmod{10100}$ implies $\\{a,b\\}=\\{c,d\\}$.",
+    "lean4_statement": "theorem putnam_1994_b6\n(n : ℕ → ℤ)\n(hn : ∀ a : ℕ, n a = 101 * a - 100 * 2 ^ a)\n: ∀ a b c d : Set.Icc 0 99, (n a + n b ≡ n c + n d [ZMOD 10100]) → (({a, b} : Set (Set.Icc 0 99)) = {c, d}) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2018_a1",
+    "problem_id": "putnam_2018_a1",
+    "informal_statement": "Find all ordered pairs $(a,b)$ of positive integers for which $\\frac{1}{a} + \\frac{1}{b} = \\frac{3}{2018}$.",
+    "lean4_statement": "abbrev putnam_2018_a1_solution : Set (ℤ × ℤ) := sorry\n-- {⟨673, 1358114⟩, ⟨674, 340033⟩, ⟨1009, 2018⟩, ⟨2018, 1009⟩, ⟨340033, 674⟩, ⟨1358114, 673⟩}\ntheorem putnam_2018_a1 : ∀ a b : ℤ, (a > 0 ∧ b > 0 ∧ ((1: ℚ) / a + (1: ℚ) / b = (3: ℚ) / 2018)) ↔ (⟨a, b⟩ ∈ putnam_2018_a1_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2018_a2",
+    "problem_id": "putnam_2018_a2",
+    "informal_statement": "Let \\( S_1, S_2, \\ldots, S_{2^n-1} \\) be the nonempty subsets of \\( \\{1, 2, \\ldots, n\\} \\) in some order, and let \\( M \\) be the \\( (2^n - 1) \\times (2^n - 1) \\) matrix whose \\((i, j)\\) entry is $m_{ij} = \\begin{cases} 0 & \\text{if } S_i \\\\cap S_j = \\\\emptyset; \\\\ 1 & \\text{otherwise}. \\\\end{cases} $ Calculate the determinant of \\( M \\).",
+    "lean4_statement": "abbrev putnam_2018_a2_solution : ℕ → ℝ := sorry\n-- (fun n : ℕ => if n = 1 then 1 else -1)\ntheorem putnam_2018_a2\n(n : ℕ)\n(S : Fin (2 ^ n - 1) → Set ℕ)\n(M : Matrix (Fin (2 ^ n - 1)) (Fin (2 ^ n - 1)) ℝ)\n(npos : n ≥ 1)\n(hS : Set.range S = (Set.Icc 1 n).powerset \\ {∅})\n(hM : ∀ i j : Fin (2 ^ n - 1), M i j = if (S i ∩ S j = ∅) = True then 0 else 1)\n: M.det = putnam_2018_a2_solution n :=\nsorry",
+    "tags": [
+      "linear_algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2018_a3",
+    "problem_id": "putnam_2018_a3",
+    "informal_statement": "Determine the greatest possible value of $\\sum_{i=1}^{10} \\cos(3x_i)$ for real numbers $x_1, x_2, \\ldots, x_{10}$ satisfying $\\sum_{i=1}^{10} \\cos(x_i) = 0$.",
+    "lean4_statement": "abbrev putnam_2018_a3_solution : ℝ := sorry\n-- 480/49\ntheorem putnam_2018_a3\n(P : Set (Fin 10 → ℝ))\n(f : (Fin 10 → ℝ) → ℝ → ℝ := fun x => fun k => ∑ i : Fin 10, Real.cos (k * (x i)))\n(hP : ∀ x ∈ P, f x 1 = 0)\n: ∀ y ∈ P, f y 3 ≤ putnam_2018_a3_solution ∧ ∃ x ∈ P, f x 3 = putnam_2018_a3_solution :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2018_a4",
+    "problem_id": "putnam_2018_a4",
+    "informal_statement": "Let $m$ and $n$ be positive integers with $\\gcd(m,n)=1$, and let $a_k=\\left\\lfloor \\frac{mk}{n} \\right\\rfloor - \\left\\lfloor \\frac{m(k-1)}{n} \\right\\rfloor$ for $k=1,2,\\dots,n$. Suppose that $g$ and $h$ are elements in a group $G$ and that $gh^{a_1}gh^{a_2} \\cdots gh^{a_n}=e$, where $e$ is the identity element. Show that $gh=hg$. (As usual, $\\lfloor x \\rfloor$ denotes the greatest integer less than or equal to $x$.)",
+    "lean4_statement": "theorem putnam_2018_a4\n(m n : ℕ)\n(a : ℕ → ℤ)\n(G : Type*) [Group G]\n(g h : G)\n(mnpos : m > 0 ∧ n > 0)\n(mngcd : Nat.gcd m n = 1)\n(ha : ∀ k : Set.Icc 1 n, a k = Int.floor (m * k / (n : ℝ)) - Int.floor (m * ((k : ℤ) - 1) / (n : ℝ)))\n(ghprod : ((List.Ico 1 (n + 1)).map (fun k : ℕ => g * h ^ (a k))).prod = 1)\n: g * h = h * g :=\nsorry",
+    "tags": [
+      "abstract_algebra",
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2018_b3",
+    "problem_id": "putnam_2018_b3",
+    "informal_statement": "Find all positive integers $n < 10^{100}$ for which simultaneously $n$ divides $2^n$, $n-1$ divides $2^n-1$, and $n-2$ divides $2^n - 2$.",
+    "lean4_statement": "abbrev putnam_2018_b3_solution : Set ℕ := sorry\n-- {2^2, 2^4, 2^8, 2^16}\ntheorem putnam_2018_b3\n(n : ℕ)\n(hn : n > 0)\n: ((n < 10^100 ∧ ((n : ℤ) ∣ (2^n : ℤ) ∧ (n - 1 : ℤ) ∣ (2^n - 1 : ℤ) ∧ (n - 2 : ℤ) ∣ (2^n - 2 : ℤ))) ↔ n ∈ putnam_2018_b3_solution) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_1993_b5",
+    "problem_id": "putnam_1993_b5",
+    "informal_statement": "Show there do not exist four points in the Euclidean plane such that the pairwise distances between the points are all odd integers.",
+    "lean4_statement": "theorem putnam_1993_b5\n(pdists : (Fin 4 → (Fin 2 → ℝ)) → Prop)\n(hpdists: ∀ p : Fin 4 → (Fin 2 → ℝ), pdists p = ∀ i j : Fin 4, i ≠ j → (Euclidean.dist (p i) (p j) = round (Euclidean.dist (p i) (p j)) ∧ Odd (round (Euclidean.dist (p i) (p j)))))\n: ¬∃ p : Fin 4 → (Fin 2 → ℝ), pdists p :=\nsorry",
+    "tags": [
+      "geometry",
+      "number_theory",
+      "linear_algebra"
+    ]
+  },
+  {
+    "name": "putnam_2015_a2",
+    "problem_id": "putnam_2015_a2",
+    "informal_statement": "Let $a_0=1$, $a_1=2$, and $a_n=4a_{n-1}-a_{n-2}$ for $n \\geq 2$. Find an odd prime factor of $a_{2015}$.",
+    "lean4_statement": "abbrev putnam_2015_a2_solution : ℕ := sorry\n-- 181\ntheorem putnam_2015_a2\n(a : ℕ → ℤ)\n(abase : a 0 = 1 ∧ a 1 = 2)\n(arec : ∀ n ≥ 2, a n = 4 * a (n - 1) - a (n - 2))\n: Odd putnam_2015_a2_solution ∧ putnam_2015_a2_solution.Prime ∧ ((putnam_2015_a2_solution : ℤ) ∣ a 2015) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2015_a3",
+    "problem_id": "putnam_2015_a3",
+    "informal_statement": "Compute $\\log_2 \\left( \\prod_{a=1}^{2015}\\prod_{b=1}^{2015}(1+e^{2\\pi iab/2015}) \\right)$. Here $i$ is the imaginary unit (that is, $i^2=-1$).",
+    "lean4_statement": "abbrev putnam_2015_a3_solution : ℂ := sorry\n-- 13725\ntheorem putnam_2015_a3\n: Complex.log (∏ a : Fin 2015, ∏ b : Fin 2015, (1 + Complex.exp (2 * Real.pi * Complex.I * (a.1 + 1) * (b.1 + 1) / 2015))) / Complex.log 2 = putnam_2015_a3_solution :=\nsorry",
+    "tags": [
+      "number_theory",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2015_a5",
+    "problem_id": "putnam_2015_a5",
+    "informal_statement": "Let $q$ be an odd positive integer, and let $N_q$ denote the number of integers $a$ such that $0<a<q/4$ and $\\gcd(a,q)=1$. Show that $N_q$ is odd if and only if $q$ is of the form $p^k$ with $k$ a positive integer and $p$ a prime congruent to $5$ or $7$ modulo $8$.",
+    "lean4_statement": "theorem putnam_2015_a5\n(q : ℕ)\n(Nq : ℕ)\n(qodd : Odd q)\n(qpos : q > 0)\n(hNq : Nq = {a : ℕ | 0 < a ∧ a < (q : ℝ) / 4 ∧ Nat.gcd a q = 1}.encard)\n: Odd Nq ↔ ∃ p k : ℕ, q = p ^ k ∧ k > 0 ∧ p.Prime ∧ (p % 8 = 5 ∨ p % 8 = 7) :=\nsorry",
+    "tags": [
+      "number_theory"
+    ]
+  },
+  {
+    "name": "putnam_2015_b6",
+    "problem_id": "putnam_2015_b6",
+    "informal_statement": "For each positive integer $k$, let $A(k)$ be the number of odd divisors of $k$ in the interval $[1,\\sqrt{2k})$. Evaluate $\\sum_{k=1}^\\infty (-1)^{k-1}\\frac{A(k)}{k}$.",
+    "lean4_statement": "abbrev putnam_2015_b6_solution : ℝ := sorry\n-- Real.pi ^ 2 / 16\ntheorem putnam_2015_b6\n(A : ℕ → ℕ)\n(hA : ∀ k > 0, A k = {j : ℕ | Odd j ∧ j ∣ k ∧ j < Real.sqrt (2 * k)}.encard)\n: ∑' k : Set.Ici 1, (-1 : ℝ) ^ ((k : ℝ) - 1) * (A k / (k : ℝ)) = putnam_2015_b6_solution :=\nsorry",
+    "tags": [
+      "analysis",
+      "number_theory"
+    ]
+  }
+]

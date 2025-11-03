@@ -1,0 +1,195 @@
+[
+  {
+    "name": "putnam_2007_a1",
+    "problem_id": "putnam_2007_a1",
+    "informal_statement": "Find all values of $\\alpha$ for which the curves $y = \\alpha*x^2 + \\alpha*x + 1/24$ and $x = \\alpha*y^2 + \\alpha*y + 1/24$ are tangent to each other.",
+    "lean4_statement": "abbrev putnam_2007_a1_solution : Set ℝ := sorry\n-- {2/3, 3/2, (13 + Real.sqrt 601)/12, (13 - Real.sqrt 601)/12}\ndef reflect_tangent (f g : ℝ → ℝ) := ContDiff ℝ 1 f ∧ ContDiff ℝ 1 g ∧ (∃ x y : ℝ, f x = y ∧ g y = x ∧ (deriv f) x = 1 / (deriv g) y)\ntheorem putnam_2007_a1\n: ∀ a : ℝ, reflect_tangent (fun x => a * x^2 + a * x + 1/24) (fun y => a * y^2 + a * y + 1/24) ↔ a ∈ putnam_2007_a1_solution :=\nsorry",
+    "tags": [
+      "algebra",
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_2007_a2",
+    "problem_id": "putnam_2007_a2",
+    "informal_statement": "Find the least possible area of a convex set in the plane that intersects both branches of the hyperbola $xy=1$ and both branches of the hyperbola $xy=-1$. (A set $S$ in the plane is called \\emph{convex} if for any two points in $S$ the line segment connecting them is contained in $S$.)",
+    "lean4_statement": "abbrev putnam_2007_a2_solution : ENNReal := sorry\n-- 4\ntheorem putnam_2007_a2\n(Sinterpos : Set (Fin 2 → ℝ) → Prop)\n(Sinterneg : Set (Fin 2 → ℝ) → Prop)\n(Sconv : Set (Fin 2 → ℝ) → Prop)\n(hSinterpos : ∀ S : Set (Fin 2 → ℝ), Sinterpos S = ((∃ p ∈ S, p 0 > 0 ∧ p 1 > 0 ∧ p 0 * p 1 = 1) ∧ (∃ p ∈ S, p 0 < 0 ∧ p 1 < 0 ∧ p 0 * p 1 = 1)))\n(hSinterneg : ∀ S : Set (Fin 2 → ℝ), Sinterneg S = ((∃ p ∈ S, p 0 < 0 ∧ p 1 > 0 ∧ p 0 * p 1 = -1) ∧ (∃ p ∈ S, p 0 > 0 ∧ p 1 < 0 ∧ p 0 * p 1 = -1)))\n(hSconv : ∀ S : Set (Fin 2 → ℝ), Sconv S = (Convex ℝ S ∧ Sinterpos S ∧ Sinterneg S))\n: (∃ S : Set (Fin 2 → ℝ), Sconv S ∧ MeasureTheory.volume S = putnam_2007_a2_solution) ∧ (∀ S : Set (Fin 2 → ℝ), Sconv S → MeasureTheory.volume S ≥ putnam_2007_a2_solution) :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1984_b2",
+    "problem_id": "putnam_1984_b2",
+    "informal_statement": "Find the minimum value of $(u-v)^2+(\\sqrt{2-u^2}-\\frac{9}{v})^2$ for $0<u<\\sqrt{2}$ and $v>0$.",
+    "lean4_statement": "abbrev putnam_1984_b2_solution : ℝ := sorry\n-- 8\ntheorem putnam_1984_b2\n(f : ℝ → ℝ → ℝ)\n(hf : ∀ u v : ℝ, f u v = (u - v) ^ 2 + (Real.sqrt (2 - u ^ 2) - 9 / v) ^ 2)\n: (∃ u : Set.Ioo 0 (Real.sqrt 2), ∃ v > 0, f u v = putnam_1984_b2_solution) ∧ (∀ u : Set.Ioo 0 (Real.sqrt 2), ∀ v > 0, f u v ≥ putnam_1984_b2_solution) :=\nsorry",
+    "tags": [
+      "geometry",
+      "analysis"
+    ]
+  },
+  {
+    "name": "putnam_2009_a1",
+    "problem_id": "putnam_2009_a1",
+    "informal_statement": "Let $f$ be a real-valued function on the plane such that for every square $ABCD$ in the plane, $f(A)+f(B)+f(C)+f(D)=0$. Does it follow that $f(P)=0$ for all points $P$ in the plane?",
+    "lean4_statement": "abbrev putnam_2009_a1_solution : Prop := sorry\n-- True\ntheorem putnam_2009_a1\n: ((∀ f : (ℝ × ℝ) → ℝ, (∀ O v : ℝ × ℝ, v ≠ (0, 0) → f (O.1, O.2) + f (O.1 + v.1, O.2 + v.2) + f (O.1 + v.1 - v.2, O.2 + v.2 + v.1) + f (O.1 - v.2, O.2 + v.1) = 0) → ∀ P : ℝ × ℝ, f P = 0) ↔ putnam_2009_a1_solution) :=\nsorry",
+    "tags": [
+      "geometry",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2017_b1",
+    "problem_id": "putnam_2017_b1",
+    "informal_statement": "Let $L_1$ and $L_2$ be distinct lines in the plane. Prove that $L_1$ and $L_2$ intersect if and only if, for every real number $\\lambda \\neq 0$ and every point $P$ not on $L_1$ or $L_2$, there exist points $A_1$ on $L_1$ and $A_2$ on $L_2$ such that $\\overrightarrow{PA_2}=\\lambda \\overrightarrow{PA_1}$.",
+    "lean4_statement": "theorem putnam_2017_b1\n(lines : Set (Set (Fin 2 → ℝ)) := {L : Set (Fin 2 → ℝ) | ∃ v w : Fin 2 → ℝ, w ≠ 0 ∧ L = {p : Fin 2 → ℝ | ∃ t : ℝ, p = v + t • w}})\n(L1 L2 : Set (Fin 2 → ℝ))\n(L1L2lines : L1 ∈ lines ∧ L2 ∈ lines)\n(L1L2distinct : L1 ≠ L2)\n: L1 ∩ L2 ≠ ∅ ↔ (∀ lambda : ℝ, lambda ≠ 0 → ∀ P : Fin 2 → ℝ, (P ∉ L1 ∧ P ∉ L2) → ∃ A1 A2 : Fin 2 → ℝ, A1 ∈ L1 ∧ A2 ∈ L2 ∧ (A2 - P = lambda • (A1 - P))) :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1988_a4",
+    "problem_id": "putnam_1988_a4",
+    "informal_statement": "\\begin{enumerate}\n\\item[(a)] If every point of the plane is painted one of three colors, do there necessarily exist two points of the same color exactly one inch apart?\n\\item[(b)] What if ``three'' is replaced by ``nine''?\n\\end{enumerate}",
+    "lean4_statement": "abbrev putnam_1988_a4_solution : Prop × Prop := sorry\n-- (True, False)\ntheorem putnam_1988_a4\n(p : ℕ → Prop := fun n ↦ ∀ color : (Fin 2 → ℝ) → Fin n, ∃ p q : Fin 2 → ℝ, color p = color q ∧ Euclidean.dist p q = 1)\n: (let (a, b) := putnam_1988_a4_solution; (p 3 ↔ a) ∧ (p 9 ↔ b)) :=\nsorry",
+    "tags": [
+      "geometry",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_1973_a6",
+    "problem_id": "putnam_1973_a6",
+    "informal_statement": "Prove that it is impossible for seven distinct straight lines to be situated in the Euclidean plane so as to have at least six points where exactly three of these lines intersect and at least four points where exactly two of these lines interest.",
+    "lean4_statement": "theorem putnam_1973_a6\n(h_nint : ℕ → (Fin 7 → (ℝ × ℝ)) → ℕ := fun n lines => {p : ℝ × ℝ | ∃! S : Set (Fin 7), S.ncard = n ∧ p ∈ ⋂ i ∈ S, {pts | pts.2 = (lines i).1 * pts.1 + (lines i).2}}.ncard)\n: ¬ ∃ lines : Fin 7 → (ℝ × ℝ), (∀ i j : Fin 7, i ≠ j → lines i ≠ lines j) ∧ h_nint 3 lines ≥ 6 ∧ h_nint 2 lines ≥ 4 :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1978_a6",
+    "problem_id": "putnam_1978_a6",
+    "informal_statement": "Given $n$ distinct points in the plane, prove that fewer than $2n^{3/2}$ pairs of these points are a distance of $1$ apart.",
+    "lean4_statement": "theorem putnam_1978_a6\n(S : Finset (Fin 2 → ℝ))\n(n : ℕ := S.card)\n(npos : n > 0)\n: ({pair : Set (Fin 2 → ℝ) | ∃ P ∈ S, ∃ Q ∈ S, pair = {P, Q} ∧ Euclidean.dist P Q = 1}.ncard < 2 * (n : ℝ) ^ ((3 : ℝ) / 2)) :=\nsorry",
+    "tags": [
+      "geometry",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_2019_b1",
+    "problem_id": "putnam_2019_b1",
+    "informal_statement": "Denote by $\\mathbb{Z}^2$ the set of all points $(x,y)$ in the plane with integer coordinates. For each integer $n \\geq 0$, let $P_n$ be the subset of $\\mathbb{Z}^2$ consisting of the point $(0,0)$ together with all points $(x,y)$ such that $x^2+y^2=2^k$ for some integer $k \\leq n$. Determine, as a function of $n$, the number of four-point subsets of $P_n$ whose elements are the vertices of a square.",
+    "lean4_statement": "abbrev putnam_2019_b1_solution : ℕ → ℕ := sorry\n-- (fun n : ℕ => 5 * n + 1)\ntheorem putnam_2019_b1\n(n : ℕ)\n(Pn : Set (Fin 2 → ℤ))\n(pZtoR : (Fin 2 → ℤ) → (Fin 2 → ℝ))\n(sPnsquare : Finset (Fin 2 → ℤ) → Prop)\n(hPn : Pn = {p : Fin 2 → ℤ | (p 0 = 0 ∧ p 1 = 0) ∨ (∃ k ≤ n, (p 0) ^ 2 + (p 1) ^ 2 = 2 ^ k)})\n(hpZtoR : ∀ p : Fin 2 → ℤ, ∀ i : Fin 2, (pZtoR p) i = p i)\n(hsPnsquare : ∀ sPn : Finset (Fin 2 → ℤ), sPnsquare sPn = (sPn.card = 4 ∧ ∃ p4 : Fin 4 → (Fin 2 → ℤ), Set.range p4 = sPn ∧ (∃ s > 0, ∀ i : Fin 4, Euclidean.dist (pZtoR (p4 i)) (pZtoR (p4 (i + 1))) = s) ∧ (Euclidean.dist (pZtoR (p4 0)) (pZtoR (p4 2)) = Euclidean.dist (pZtoR (p4 1)) (pZtoR (p4 3)))))\n: {sPn : Finset (Fin 2 → ℤ) | (sPn : Set (Fin 2 → ℤ)) ⊆ Pn ∧ sPnsquare sPn}.encard = putnam_2019_b1_solution n :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_2010_b2",
+    "problem_id": "putnam_2010_b2",
+    "informal_statement": "Given that $A$, $B$, and $C$ are noncollinear points in the plane with integer coordinates such that the distances $AB$, $AC$, and $BC$ are integers, what is the smallest possible value of $AB$?",
+    "lean4_statement": "abbrev putnam_2010_b2_solution : ℕ := sorry\n-- 3\ntheorem putnam_2010_b2\n(ABCintcoords : (Fin 2 → ℝ) → (Fin 2 → ℝ) → (Fin 2 → ℝ) → Prop)\n(ABCintdists : (Fin 2 → ℝ) → (Fin 2 → ℝ) → (Fin 2 → ℝ) → Prop)\n(ABCall : (Fin 2 → ℝ) → (Fin 2 → ℝ) → (Fin 2 → ℝ) → Prop)\n(hABCintcoords : ∀ A B C : Fin 2 → ℝ, ABCintcoords A B C = (∀ i : Fin 2, A i = round (A i) ∧ B i = round (B i) ∧ C i = round (C i)))\n(hABCintdists : ∀ A B C : Fin 2 → ℝ, ABCintdists A B C = (Euclidean.dist A B = round (Euclidean.dist A B) ∧ Euclidean.dist A C = round (Euclidean.dist A C) ∧ Euclidean.dist B C = round (Euclidean.dist B C)))\n(hABCall : ∀ A B C : Fin 2 → ℝ, ABCall A B C = (¬Collinear ℝ {A, B, C} ∧ ABCintcoords A B C ∧ ABCintdists A B C))\n: (∃ A B C : Fin 2 → ℝ, ABCall A B C ∧ Euclidean.dist A B = putnam_2010_b2_solution) ∧ (∀ A B C : Fin 2 → ℝ, ABCall A B C → Euclidean.dist A B ≥ putnam_2010_b2_solution) :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_2013_a5",
+    "problem_id": "putnam_2013_a5",
+    "informal_statement": "For $m \\geq 3$, a list of $\\binom{m}{3}$ real numbers $a_{ijk}$ ($1 \\leq i<j<k \\leq m$) is said to be \\emph{area definite} for $\\mathbb{R}^n$ if the inequality $\\sum_{1 \\leq i<j<k \\leq m} a_{ijk} \\cdot \\text{Area}(\\Delta A_iA_jA_k) \\geq 0$ holds for every choice of $m$ points $A_1,\\dots,A_m$ in $\\mathbb{R}^n$. For example, the list of four numbers $a_{123}=a_{124}=a_{134}=1$, $a_{234}=-1$ is area definite for $\\mathbb{R}^2$. Prove that if a list of $\\binom{m}{3}$ numbers is area definite for $\\mathbb{R}^2$, then it is area definite for $\\mathbb{R}^3$.",
+    "lean4_statement": "theorem putnam_2013_a5\n(m : ℕ)\n(area2 : (Fin 2 → ℝ) → (Fin 2 → ℝ) → (Fin 2 → ℝ) → ℝ)\n(area3 : (Fin 3 → ℝ) → (Fin 3 → ℝ) → (Fin 3 → ℝ) → ℝ)\n(areadef2 : (Fin m → Fin m → Fin m → ℝ) → Prop)\n(areadef3 : (Fin m → Fin m → Fin m → ℝ) → Prop)\n(mge3 : m ≥ 3)\n(harea2 : ∀ a b c : Fin 2 → ℝ, area2 a b c = (MeasureTheory.volume (convexHull ℝ {a, b, c})).toReal)\n(harea3 : ∀ a b c : Fin 3 → ℝ, area3 a b c = (MeasureTheory.volume (convexHull ℝ {a, b, c})).toReal)\n(hareadef2 : ∀ a : Fin m → Fin m → Fin m → ℝ, areadef2 a = ∀ A : Fin m → (Fin 2 → ℝ), (∑ i : Fin m, ∑ j : Fin m, ∑ k : Fin m, if (i < j ∧ j < k) then (a i j k * area2 (A i) (A j) (A k)) else 0) ≥ 0)\n(hareadef3 : ∀ a : Fin m → Fin m → Fin m → ℝ, areadef3 a = ∀ A : Fin m → (Fin 3 → ℝ), (∑ i : Fin m, ∑ j : Fin m, ∑ k : Fin m, if (i < j ∧ j < k) then (a i j k * area3 (A i) (A j) (A k)) else 0) ≥ 0)\n: ∀ a : Fin m → Fin m → Fin m → ℝ, areadef2 a → areadef3 a :=\nsorry",
+    "tags": [
+      "geometry",
+      "linear_algebra"
+    ]
+  },
+  {
+    "name": "putnam_2021_a1",
+    "problem_id": "putnam_2021_a1",
+    "informal_statement": "A grasshopper starts at the origin in the coordinate plane and makes a sequence of hops.\nEach hop has length $5$, and after each hop the grasshopper is at a point whose coordinates are both integers; thus, there are $12$ possible locations for the grasshopper after the first hop.\nWhat is the smallest number of hops needed for the grasshopper to reach the point $(2021, 2021)$?",
+    "lean4_statement": "abbrev putnam_2021_a1_solution : ℕ := sorry\n-- 578\ntheorem putnam_2021_a1\n(P : List (ℤ × ℤ) → Prop := fun l : List (ℤ × ℤ) => l.length ≥ 1 ∧ l[0]! = (0, 0) ∧ l[l.length-1]! = (2021, 2021) ∧\n∀ n ∈ Finset.range (l.length-1), Real.sqrt ((l[n]!.1 - l[n + 1]!.1)^2 + (l[n]!.2 - l[n + 1]!.2)^2) = 5)\n: (∃ l : List (ℤ × ℤ), P l ∧ l.length = putnam_2021_a1_solution) ∧\n∀ l : List (ℤ × ℤ), P l → l.length ≥ putnam_2021_a1_solution :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1971_a1",
+    "problem_id": "putnam_1971_a1",
+    "informal_statement": "Let $S$ be a set of $9$ lattice points (points with integer coordinates) in $3$-dimensional Euclidean space. Prove that there exists a lattice point along the interior of some line segment that joins two distinct points in $S$.",
+    "lean4_statement": "theorem putnam_1971_a1\n(S : Set (ℤ × ℤ × ℤ))\n(hS : S.ncard = 9)\n(L : (ℤ × ℤ × ℤ) × (ℤ × ℤ × ℤ) → Set (ℝ × ℝ × ℝ) := fun ((a, b, c), (d, e, f)) =>\n{(t*a + (1-t)*d, t*b + (1-t)*e, t*c + (1-t)*f) | t ∈ Ioo (0 : ℝ) 1})\n: ∃ x y z : ℤ, ∃ P Q : ℤ × ℤ × ℤ, P ∈ S ∧ Q ∈ S ∧ P ≠ Q ∧ ((x : ℝ), (y : ℝ), (z : ℝ)) ∈ L (P, Q) :=\nsorry",
+    "tags": [
+      "geometry",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_1971_a3",
+    "problem_id": "putnam_1971_a3",
+    "informal_statement": "The three vertices of a triangle of sides $a,b,c$ are lattice points and lie on a circle of radius $R$. Show that $abc \\geq 2R$.",
+    "lean4_statement": "theorem putnam_1971_a3\n(a b c : ℝ × ℝ)\n(R : ℝ)\n(habclattice : a.1 = round a.1 ∧ a.2 = round a.2 ∧ b.1 = round b.1 ∧ b.2 = round b.2 ∧ c.1 = round c.1 ∧ c.2 = round c.2)\n(habcneq : a ≠ b ∧ a ≠ c ∧ b ≠ c)\n(oncircle : (ℝ × ℝ) → ℝ → (ℝ × ℝ) → Prop := fun C r p => Euclidean.dist p C = r)\n(hcircle : ∃ C : ℝ × ℝ, oncircle C R a ∧ oncircle C R b ∧ oncircle C R c)\n: (Euclidean.dist a b) * (Euclidean.dist a c) * (Euclidean.dist b c) ≥ 2 * R :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1998_b2",
+    "problem_id": "putnam_1998_b2",
+    "informal_statement": "Given a point $(a,b)$ with $0<b<a$, determine the minimum perimeter of a triangle with one vertex at $(a,b)$, one on the $x$-axis, and one on the line $y=x$.  You may assume that a triangle of minimum perimeter exists.",
+    "lean4_statement": "abbrev putnam_1998_b2_solution : ℝ → ℝ → ℝ := sorry\n-- fun a b => if a > b then Real.sqrt (2*a^2 + 2*b^2) else 0\ntheorem putnam_1998_b2\n(a b : ℝ)\n(hab : 0 < b ∧ b < a)\n: sInf {d : ℝ | ∃ (c : ℝ) (x : ℝ), d = Euclidean.dist (a, b) (c, 0) + Euclidean.dist (c, 0) (x, x) + Euclidean.dist (a, b) (x, x) ∧\n  Euclidean.dist (a, b) (c, 0) + Euclidean.dist (c, 0) (x, x) > Euclidean.dist (a, b) (x, x) ∧\n  Euclidean.dist (a, b) (c, 0) + Euclidean.dist (a, b) (x, x) > Euclidean.dist (c, 0) (x, x) ∧\n  Euclidean.dist (c, 0) (x, x) + Euclidean.dist (a, b) (x, x) > Euclidean.dist (a, b) (c, 0)}\n = putnam_1998_b2_solution a b :=\nsorry",
+    "tags": [
+      "geometry",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_2006_b3",
+    "problem_id": "putnam_2006_b3",
+    "informal_statement": "Let $S$ be a finite set of points in the plane. A linear partition of $S$ is an unordered pair $\\{A,B\\}$ of subsets of $S$ such that $A \\cup B=S$, $A \\cap B=\\emptyset$, and $A$ and $B$ lie on opposite sides of some straight line disjoint from $S$ ($A$ or $B$ may be empty). Let $L_S$ be the number of linear partitions of $S$. For each positive integer $n$, find the maximum of $L_S$ over all sets $S$ of $n$ points.",
+    "lean4_statement": "abbrev putnam_2006_b3_solution : ℕ → ℕ := sorry\n-- (fun n : ℕ => (Nat.choose n 2) + 1)\ntheorem putnam_2006_b3\n(SABpart : Finset (Fin 2 → ℝ) → Finset (Finset (Fin 2 → ℝ)) → Prop)\n(LS : Finset (Fin 2 → ℝ) → ℕ)\n(n : ℕ)\n(hSABpart : ∀ (S : Finset (Fin 2 → ℝ)) (AB : Finset (Finset (Fin 2 → ℝ))), SABpart S AB = (AB.card = 2 ∧ ∃ A ∈ AB, ∃ B ∈ AB, (A ∪ B = S) ∧ (A ∩ B = ∅) ∧ (∃ m b : ℝ, (∀ p ∈ A, p 1 > m * p 0 + b) ∧ (∀ p ∈ B, p 1 < m * p 0 + b))))\n(hLS : ∀ S : Finset (Fin 2 → ℝ), LS S = {AB : Finset (Finset (Fin 2 → ℝ)) | SABpart S AB}.encard)\n(npos : n > 0)\n: (∃ S : Finset (Fin 2 → ℝ), S.card = n ∧ LS S = putnam_2006_b3_solution n) ∧ (∀ S : Finset (Fin 2 → ℝ), S.card = n → LS S ≤ putnam_2006_b3_solution n) :=\nsorry",
+    "tags": [
+      "geometry"
+    ]
+  },
+  {
+    "name": "putnam_1991_a4",
+    "problem_id": "putnam_1991_a4",
+    "informal_statement": "Does there exist an infinite sequence of closed discs $D_1,D_2,D_3,\\dots$ in the plane, with centers $c_1,c_2,c_3,\\dots$, respectively, such that\n\\begin{enumerate}\n\\item the $c_i$ have no limit point in the finite plane,\n\\item the sum of the areas of the $D_i$ is finite, and\n\\item every line in the plane intersects at least one of the $D_i$?\n\\end{enumerate}",
+    "lean4_statement": "abbrev putnam_1991_a4_solution : Prop := sorry\n-- True\ntheorem putnam_1991_a4\n(climit : (ℕ → (Fin 2 → ℝ)) → Prop)\n(rareas : (ℕ → ℝ) → Prop)\n(crline : (ℕ → (Fin 2 → ℝ)) → (ℕ → ℝ) → Prop)\n(hclimit : ∀ c : ℕ → (Fin 2 → ℝ), climit c = ¬∃ (p : Fin 2 → ℝ), ∀ ε : ℝ, ε > 0 → ∃ i : ℕ, c i ∈ Metric.ball p ε)\n(hrareas : ∀ r : ℕ → ℝ, rareas r = ∃ A : ℝ, Tendsto (fun n : ℕ => ∑ i : Fin n, Real.pi * (r i) ^ 2) atTop (𝓝 A))\n(hcrline : ∀ (c : ℕ → (Fin 2 → ℝ)) (r : ℕ → ℝ), crline c r = (∀ v w : Fin 2 → ℝ, w ≠ 0 → ∃ i : ℕ, {p : Fin 2 → ℝ | ∃ t : ℝ, p = v + t • w} ∩ Metric.closedBall (c i) (r i) ≠ ∅))\n: (∃ (c : ℕ → (Fin 2 → ℝ)) (r : ℕ → ℝ), (∀ i : ℕ, r i ≥ 0) ∧ climit c ∧ rareas r ∧ crline c r) ↔ putnam_1991_a4_solution :=\nsorry",
+    "tags": [
+      "geometry",
+      "analysis"
+    ]
+  },
+  {
+    "name": "putnam_1994_b2",
+    "problem_id": "putnam_1994_b2",
+    "informal_statement": "For which real numbers $c$ is there a straight line that intersects the curve $x^4+9x^3+cx^2+9x+4$ in four distinct points?",
+    "lean4_statement": "abbrev putnam_1994_b2_solution : Set ℝ := sorry\n-- {c : ℝ | c < 243 / 8}\ntheorem putnam_1994_b2\n(c : ℝ)\n(inter : Prop)\n(hinter : inter = ∃ m b : ℝ, {x : ℝ | m * x + b = x ^ 4 + 9 * x ^ 3 + c * x ^ 2 + 9 * x + 4}.encard = 4)\n: inter ↔ c ∈ putnam_1994_b2_solution :=\nsorry",
+    "tags": [
+      "geometry",
+      "algebra"
+    ]
+  },
+  {
+    "name": "putnam_1979_a4",
+    "problem_id": "putnam_1979_a4",
+    "informal_statement": "Let $A$ be a set of $2n$ points in the plane, $n$ colored red and $n$ colored blue, such that no three points in $A$ are collinear. Must there exist $n$ closed straight line segments, each connecting one red and one blue point in $A$, such that no two of the $n$ line segments intersect?",
+    "lean4_statement": "abbrev putnam_1979_a4_solution : Prop := sorry\n-- True\ntheorem putnam_1979_a4\n(A : Finset (Fin 2 → ℝ) × Finset (Fin 2 → ℝ) → Prop := fun (R, B) => R.card = B.card ∧ R ∩ B = ∅ ∧\n∀ u : Finset (Fin 2 → ℝ), u ⊆ R ∪ B ∧ u.card = 3 → ¬Collinear ℝ (u : Set (Fin 2 → ℝ)))\n(w : (Fin 2 → ℝ) × (Fin 2 → ℝ) → ℝ → (Fin 2 → ℝ) := fun (P, Q) => fun x : ℝ => fun i : Fin 2 => x * P i + (1 - x) * Q i)\n: (∀ R : Finset (Fin 2 → ℝ), ∀ B : Finset (Fin 2 → ℝ), A (R, B) → ∃ v : Finset ((Fin 2 → ℝ) × (Fin 2 → ℝ)),\n(∀ L ∈ v, ∀ M ∈ v, L ≠ M → ∀ x ∈ Icc 0 1, ∀ y ∈ Icc 0 1,\nEuclidean.dist (w (L.1, L.2) x) (w (M.1, M.2) y) ≠ 0) ∧\nv.card = R.card ∧ ∀ L ∈ v, L.1 ∈ R ∧ L.2 ∈ B) ↔ putnam_1979_a4_solution :=\nsorry",
+    "tags": [
+      "geometry",
+      "combinatorics"
+    ]
+  },
+  {
+    "name": "putnam_1993_b5",
+    "problem_id": "putnam_1993_b5",
+    "informal_statement": "Show there do not exist four points in the Euclidean plane such that the pairwise distances between the points are all odd integers.",
+    "lean4_statement": "theorem putnam_1993_b5\n(pdists : (Fin 4 → (Fin 2 → ℝ)) → Prop)\n(hpdists: ∀ p : Fin 4 → (Fin 2 → ℝ), pdists p = ∀ i j : Fin 4, i ≠ j → (Euclidean.dist (p i) (p j) = round (Euclidean.dist (p i) (p j)) ∧ Odd (round (Euclidean.dist (p i) (p j)))))\n: ¬∃ p : Fin 4 → (Fin 2 → ℝ), pdists p :=\nsorry",
+    "tags": [
+      "geometry",
+      "number_theory",
+      "linear_algebra"
+    ]
+  }
+]
